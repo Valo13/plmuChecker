@@ -31,6 +31,20 @@ class RationalFormulaNode:
             for subop in self.operands:
                 return any(subop.containsVar(var))
 
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            selfoperands = sorted(self.operands)
+            otheroperands = sorted(other.operands)
+            return self.op == other.op \
+                   and len(selfoperands) == len(otheroperands) \
+                   and all([selfoperands[i] == otheroperands[i] for i in range(len(selfoperands))])
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, self.__class__):
+            return not self == other
+        return NotImplemented
+
     def __repr__(self):
         if self.op.type == "VAL":
             return '[' + str(self.op.val) + ']'
@@ -56,6 +70,18 @@ class RationalOperatorNode:
             self.var = varorval
         else:
             self.val = varorval
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.type == other.type \
+                   and (self.var == other.var if self.type == "VAR" else True)\
+                   and (self.val == other.val if self.type == "VAL" else True)
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, self.__class__):
+            return not self == other
+        return NotImplemented
 
 
 def valueFormula(value):

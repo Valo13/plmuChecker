@@ -1,6 +1,10 @@
 import os
+import copy
 from RationalFormula import *
 
+
+#maximum number of iterations for the solver by fixpoint
+maxiter = 50
 
 class RationalEquation:
 
@@ -110,7 +114,17 @@ def createRES(formula):
 
 
 def solveEquation(equation):
-    pass
+    # fixpoint approximation
+    var = equation.lhs
+    oldrhs = valueFormula(0.0 if equation.sign == "mu" else 1.0)
+    newrhs = equation.rhs
+    iter = 0
+    while oldrhs != newrhs and iter < maxiter:
+        oldrhs = copy.deepcopy(newrhs)
+        newrhs = simplify(toNormalForm(substituteVar(equation.rhs, var, oldrhs)))
+        iter += 1
+    equation.rhs = newrhs
+    return equation
 
 
 def solveRES(res):

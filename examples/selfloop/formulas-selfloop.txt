@@ -1,0 +1,5 @@
+% only finite a paths
+mu X.[a]X
+
+% exists infinite a path
+nu X.<a>X

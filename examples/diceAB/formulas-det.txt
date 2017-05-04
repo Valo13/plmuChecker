@@ -1,0 +1,13 @@
+% examples of box and diamond
+[throwA]<v2>1
+<throwA><v2>1
+[throwB]<v2>1
+<throwB><v2>1
+
+% examples of "ands" and "ors"
+[throwA]<v2>1 && [throwB]<v2>1
+[throwA]<v2>1 * [throwB]<v2>1
+[throwA]<v2>1 -- [throwB]<v2>1
+[throwA]<v2>1 || [throwB]<v2>1
+[throwA]<v2>1 # [throwB]<v2>1
+[throwA]<v2>1 ++ [throwB]<v2>1

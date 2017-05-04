@@ -1,0 +1,9 @@
+% eventually reach end
+mu X.((<moveLeft>X || <moveRight>X) || <won>1)
+mu X.((<moveLeft>X # <moveRight>X) || <won>1)
+mu X.((<moveLeft>X ++ <moveRight>X) || <won>1)
+
+% always move possible
+nu X.(([moveLeft]X && [moveRight]X) && <moveRight>1)
+nu X.(([moveLeft]X * [moveRight]X) && <moveRight>1)
+nu X.(([moveLeft]X -- [moveRight]X) && <moveRight>1)

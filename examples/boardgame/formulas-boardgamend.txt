@@ -1,0 +1,3 @@
+% eventually reach end
+mu X.(<move>X || <won>1)
+mu X.(([move]X || <won>1) && [lost]0)

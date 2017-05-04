@@ -1,0 +1,9 @@
+% fixpoint examples
+mu X.(<throwA>X || <v1>1)
+mu X.(<throwA>X # <v1>1)
+mu X.(<throwA>X ++ <v1>1)
+
+mu X.(<throwA>X || <v2>1)
+mu X.(<throwA>X || <v3>1)
+
+nu X.(<throwA>X && mu Y.(<throwA>Y || <v1>1))

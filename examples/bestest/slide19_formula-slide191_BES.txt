@@ -1,0 +1,12 @@
+nu X0 = ((X0 && X2) && Y0)
+nu X1 = (X3 && Y1)
+nu X2 = (X3 && Y2)
+nu X3 = (X1 && Y3)
+nu Y0 = Z0
+nu Y1 = Z1
+nu Y2 = Z2
+nu Y3 = Z3
+mu Z0 = (Y1 || (Z0 || Z2))
+mu Z1 = Z3
+mu Z2 = Z3
+mu Z3 = (Y2 || Z1)

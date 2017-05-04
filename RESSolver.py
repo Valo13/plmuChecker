@@ -151,7 +151,7 @@ def initRESSolver(ts, formula, store):
     res = createRES(formula)
 
     if store:
-        f = open(os.path.sep.join([os.path.split(model.file)[0], model.name + "_" + formula.name + "_RES.txt"]), 'w')
+        f = open(os.path.sep.join([os.path.split(model.file)[0], model.name + "_" + formula.name + "_RES.res"]), 'w')
         f.write(str(res))
         f.close()
 

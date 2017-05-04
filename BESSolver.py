@@ -142,7 +142,7 @@ def initBESSolver(ts, formula, store):
     bes = createBES(formula)
 
     if store:
-        f = open(os.path.sep.join([os.path.split(model.file)[0], model.name + "_" + formula.name + "_BES.txt"]), 'w')
+        f = open(os.path.sep.join([os.path.split(model.file)[0], model.name + "_" + formula.name + "_BES.bes"]), 'w')
         f.write(str(bes))
         f.close()
 

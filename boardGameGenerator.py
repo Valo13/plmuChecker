@@ -10,7 +10,7 @@ import os
 
 
 ASYMMETRIC = False
-NONDETERMINISTIC = True
+NONDETERMINISTIC = False
 
 WIDTH = 3
 HEIGHT = 1
@@ -45,6 +45,7 @@ def main():
     f = open(os.path.sep.join(['examples', 'boardgame', filename]), 'w')
     f.write('des(' + str(start) + ')\n')
     for square in squares:
+        print("forward of " + str(square) + " is " + str(forward(square)))
         f.write('(' + str(square) + (', "move", ' if NONDETERMINISTIC else ', "moveLeft", ')
                 + str(left(square)) + ' 1/2 ' + str(forward(square)) + ' 1/3 ' + str(right(square)) + ')\n')
         f.write('(' + str(square) + (', "move", ' if NONDETERMINISTIC else ', "moveRight", ')

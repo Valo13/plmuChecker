@@ -1,10 +1,10 @@
 import os
-import copy
 from RationalFormula import *
 
 
-#maximum number of iterations for the solver by fixpoint
-maxiter = 50
+# maximum number of iterations for the solver by fixpoint
+maxiter = 5
+
 
 class RationalEquation:
 
@@ -13,8 +13,8 @@ class RationalEquation:
         self.lhs = lhs
         self.rhs = rhs  # simplify(rhs)
 
-    def __repr__(self):
-        return self.sign + ' ' + self.lhs + ' = ' + str(self.rhs) + ' = ' + str(simplify(self.rhs))
+    def __str__(self):
+        return self.sign + ' ' + self.lhs + ' = ' + str(self.rhs)
 
 
 class RationalEquationSystem:
@@ -22,7 +22,7 @@ class RationalEquationSystem:
     def __init__(self, equations):
         self.equations = equations
 
-    def __repr__(self):
+    def __str__(self):
         return '\n'.join(str(e) for e in self.equations)
 
 
@@ -116,32 +116,44 @@ def createRES(formula):
 def solveEquation(equation):
     # fixpoint approximation
     var = equation.lhs
-    oldrhs = valueFormula(0.0 if equation.sign == "mu" else 1.0)
-    newrhs = equation.rhs
+    oldrhs = None
+    newrhs = valueFormula(0.0 if equation.sign == "mu" else 1.0)
     iter = 0
     while oldrhs != newrhs and iter < maxiter:
         oldrhs = copy.deepcopy(newrhs)
-        newrhs = simplify(toNormalForm(substituteVar(equation.rhs, var, oldrhs)))
+        newrhs = simplify(toNormalForm(substituteVar(copy.deepcopy(equation.rhs), var, oldrhs)), True)
         iter += 1
+        print("iteration " + str(iter) + ": " + var + " = " + str(newrhs))
     equation.rhs = newrhs
     return equation
 
 
 def solveRES(res):
+    print("##### SOLVING RES #####")
     for i in reversed(range(0, len(res.equations))):
         equation = res.equations[i]
         var = equation.lhs
-        equation.rhs = simplify(toNormalForm(simplify(equation.rhs)), False)
+        print("##### handling " + var)
+        equation.rhs = simplify(toNormalForm(simplify(equation.rhs)))
+        print("simplified: " + str(equation.rhs))
         # solve own equation if necessary
         if equation.rhs.containsVar(var):
+            print("##### solving...")
             solveEquation(equation)
 
         # substitute above
+        print("##### substituting...")
         for j in reversed(range(0, i)):
             res.equations[j].rhs = substituteVar(res.equations[j].rhs, var, equation.rhs)
         print(str(res) + '\n')
 
-    return float(res.equations[0].rhs.op.val)
+    # get the value for the initial state by substituting the resulting value downward
+    for i in range(1, model.initstate + 1):
+        for j in range(i):
+            res.equations[i].rhs = substituteVar(res.equations[i].rhs, res.equations[j].lhs, res.equations[j].rhs)
+        res.equations[i].rhs = simplify(res.equations[i].rhs)
+
+    return float(res.equations[model.initstate].rhs.op.val)
 
 
 def initRESSolver(ts, formula, store):
@@ -155,4 +167,4 @@ def initRESSolver(ts, formula, store):
         f.write(str(res))
         f.close()
 
-    return None  # solveRES(pes)
+    return solveRES(res)

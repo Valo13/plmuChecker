@@ -3,7 +3,7 @@ from RationalFormula import *
 
 
 # maximum number of iterations for the solver by fixpoint
-maxiter = 5
+MAX_ITER = 5
 
 
 class RationalEquation:
@@ -27,6 +27,7 @@ class RationalEquationSystem:
 
 
 model = None
+printInfo = False
 
 
 # creates the right-hand side of a boolean equation
@@ -119,7 +120,7 @@ def solveEquation(equation):
     oldrhs = None
     newrhs = valueFormula(0.0 if equation.sign == "mu" else 1.0)
     iter = 0
-    while oldrhs != newrhs and iter < maxiter:
+    while oldrhs != newrhs and iter < MAX_ITER:
         oldrhs = copy.deepcopy(newrhs)
         newrhs = simplify(toNormalForm(substituteVar(copy.deepcopy(equation.rhs), var, oldrhs)), True)
         iter += 1
@@ -129,23 +130,28 @@ def solveEquation(equation):
 
 
 def solveRES(res):
-    # print("##### SOLVING RES #####")
+    if printInfo:
+        print("##### SOLVING RES #####")
     for i in reversed(range(0, len(res.equations))):
         equation = res.equations[i]
         var = equation.lhs
-        # print("##### handling " + var)
+        if printInfo:
+            print("##### handling " + var)
         equation.rhs = simplify(toNormalForm(simplify(equation.rhs)))
         # print("simplified: " + str(equation.rhs))
         # solve own equation if necessary
         if equation.rhs.containsVar(var):
-            # print("##### solving...")
+            if printInfo:
+                print("##### solving...")
             solveEquation(equation)
 
         # substitute above
-        # print("##### substituting...")
+        if printInfo:
+            print("##### substituting...")
         for j in reversed(range(0, i)):
             res.equations[j].rhs = substituteVar(res.equations[j].rhs, var, equation.rhs)
-        # print(str(res) + '\n')
+        if printInfo:
+            print(str(res) + '\n')
 
     # get the value for the initial state by substituting the resulting value downward
     for i in range(1, model.initstate + 1):
@@ -156,9 +162,10 @@ def solveRES(res):
     return float(res.equations[model.initstate].rhs.op.val)
 
 
-def initRESSolver(ts, formula, store):
-    global model
+def initRESSolver(ts, formula, store, verbose):
+    global model, printInfo
     model = ts
+    printInfo = verbose
 
     res = createRES(formula)
 

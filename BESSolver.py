@@ -25,6 +25,7 @@ class BooleanEquationSystem:
 
 
 model = None
+printInfo = False
 
 
 # creates the right-hand side of a boolean equation
@@ -130,14 +131,16 @@ def solveBES(bes):
         equation.rhs = simplify(equation.rhs)
         for j in reversed(range(0, i)):
             bes.equations[j].rhs = substituteVar(bes.equations[j].rhs, var, equation.rhs)
-        print(str(bes) + '\n')
+        if printInfo:
+            print(str(bes) + '\n')
 
     return bool(bes.equations[0].rhs.op.val)
 
 
-def initBESSolver(ts, formula, store):
-    global model
+def initBESSolver(ts, formula, store, verbose):
+    global model, printInfo
     model = ts
+    printInfo = verbose
 
     bes = createBES(formula)
 

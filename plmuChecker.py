@@ -4,6 +4,7 @@ import copy
 MAXITER = 100
 variables = {}
 model = None
+printInfo = False
 
 
 # naive method, approximates fixpoints
@@ -42,7 +43,8 @@ def checkNaive(formula, state):
                 variables[var] = copy.copy(newVars)
                 for s in range(0, model.numstates):
                     newVars[s] = checkNaive(formula.subformulas[0], s)
-                # print("Iteration " + str(i) + ": " + str(variables))
+                if printInfo:
+                    print("Iteration " + str(i) + ": " + str(variables))
                 i += 1
             return variables[var][state]
     elif formula.type == "BINARY":
@@ -64,8 +66,9 @@ def checkNaive(formula, state):
             return formula.op.val * val1 + (1.0 - formula.op.val) * val2
 
 
-def checkNaiveInit(ts, formula):
-    global model, variables
+def checkNaiveInit(ts, formula, verbose):
+    global model, variables, printInfo
     model = ts
+    printInfo = verbose
     variables = {var: [] for var in formula.vars}
     return checkNaive(formula, model.initstate)

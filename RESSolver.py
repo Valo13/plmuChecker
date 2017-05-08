@@ -123,29 +123,29 @@ def solveEquation(equation):
         oldrhs = copy.deepcopy(newrhs)
         newrhs = simplify(toNormalForm(substituteVar(copy.deepcopy(equation.rhs), var, oldrhs)), True)
         iter += 1
-        print("iteration " + str(iter) + ": " + var + " = " + str(newrhs))
+        # print("iteration " + str(iter) + ": " + var + " = " + str(newrhs))
     equation.rhs = newrhs
     return equation
 
 
 def solveRES(res):
-    print("##### SOLVING RES #####")
+    # print("##### SOLVING RES #####")
     for i in reversed(range(0, len(res.equations))):
         equation = res.equations[i]
         var = equation.lhs
-        print("##### handling " + var)
+        # print("##### handling " + var)
         equation.rhs = simplify(toNormalForm(simplify(equation.rhs)))
-        print("simplified: " + str(equation.rhs))
+        # print("simplified: " + str(equation.rhs))
         # solve own equation if necessary
         if equation.rhs.containsVar(var):
-            print("##### solving...")
+            # print("##### solving...")
             solveEquation(equation)
 
         # substitute above
-        print("##### substituting...")
+        # print("##### substituting...")
         for j in reversed(range(0, i)):
             res.equations[j].rhs = substituteVar(res.equations[j].rhs, var, equation.rhs)
-        print(str(res) + '\n')
+        # print(str(res) + '\n')
 
     # get the value for the initial state by substituting the resulting value downward
     for i in range(1, model.initstate + 1):

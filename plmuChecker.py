@@ -42,7 +42,7 @@ def checkNaive(formula, state):
                 variables[var] = copy.copy(newVars)
                 for s in range(0, model.numstates):
                     newVars[s] = checkNaive(formula.subformulas[0], s)
-                print("Iteration " + str(i) + ": " + str(variables))
+                # print("Iteration " + str(i) + ": " + str(variables))
                 i += 1
             return variables[var][state]
     elif formula.type == "BINARY":

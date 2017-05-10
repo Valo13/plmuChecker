@@ -30,6 +30,28 @@ class RationalFormulaNode:
         else:
             return any([subop.containsVar(var) for subop in self.operands])
 
+    # get (value, {variable: its scalar})
+    # for instance 0.5 + 0.2*X + Y + 0.6*Z returns (0.5, {X: 0.2, Y: 1, Z: 0.6})
+    # assumes normal form and additions of scalar*var combined for same var
+    def getVariableScalar(self):
+        if self.op.type == "VAL":
+            return self.op.val, {}
+        elif self.op.type == "VAR":
+            return 0, {self.op.var: 1}
+        elif self.op.type == "MULTIPLY":
+            var = [term.op.var for term in self.operands if term.op.type == "VAR"][0]
+            val = [term.op.val for term in self.operands if term.op.type == "VAL"][0]
+            return 0, {var: val}
+        elif self.op.type == "ADD":
+            value = 0
+            scalars = {}
+            for operand in self.operands:
+                val, scalar = operand.getVariableScalar()
+                if val > 0:
+                    value = val
+                scalars.update(scalar)
+            return value, scalars
+
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             selfoperands = sorted(self.operands)
@@ -124,6 +146,14 @@ def applyOperator(opType, values):
         return max(values)
 
 
+# tests whether every element in scalar vector 1 is less than or equal to those in scalar vector 2
+def compareScalarVectors(sv1, sv2):
+    for var in sv2:
+        if var in sv1 and sv1[var] > sv2[var]:
+            return False
+    return True
+
+
 def simplify(formula, afterNormalForm=False):
     for i in range(0, len(formula.operands)):
         formula.operands[i] = simplify(formula.operands[i], afterNormalForm)
@@ -197,8 +227,9 @@ def simplify(formula, afterNormalForm=False):
                                       + [RationalFormulaNode(RationalOperatorNode("MULTIPLY"),
                                                              [valueFormula(varScalars[var]), variableFormula(var)]) for var in varScalars]
 
-                # remove duplicate operands in minimum and maximum
+                # remove duplicate and worse operands in minimum and maximum
                 if opType in ["MINIMUM", "MAXIMUM"]:
+                    # remove duplicates
                     trimmedOperands = []
                     for operand in newOperands:
                         alreadyFound = False
@@ -208,6 +239,19 @@ def simplify(formula, afterNormalForm=False):
                         if not alreadyFound:
                             trimmedOperands += [operand]
                     newOperands = trimmedOperands
+                    # if we are not dealing with MAXIMUM with MINIMUM terms, remove terms that are certainly worse
+                    if not any([operand.op.type == "MINIMUM" for operand in newOperands]):
+                        worseOperands = []
+                        for operand1 in newOperands:
+                            for operand2 in newOperands:
+                                if operand1 != operand2 and operand1 not in worseOperands and operand2 not in worseOperands:
+                                    val1, scalar1 = operand1.getVariableScalar()
+                                    val2, scalar2 = operand2.getVariableScalar()
+                                    if val1 <= val2 and compareScalarVectors(scalar1, scalar2):
+                                        worseOperands += [operand1]
+                                    elif val2 <= val1 and compareScalarVectors(scalar2, scalar1):
+                                        worseOperands += [operand2]
+                        newOperands = [operand for operand in newOperands if operand not in worseOperands]
 
         formula.operands = newOperands
 

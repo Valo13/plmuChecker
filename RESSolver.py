@@ -167,6 +167,10 @@ def initRESSolver(ts, formula, store, verbose):
     model = ts
     printInfo = verbose
 
+    # for now, we do not allow formulas with the operators PRODUCT, COPRODUCT, TCOSUM and TSUM
+    if formula.getSubFormulas(["PRODUCT", "COPRODUCT", "TCOSUM", "TSUM"]):
+        return None
+
     res = createRES(formula)
 
     if store:

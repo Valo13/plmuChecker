@@ -1,13 +1,11 @@
 import os
 from RationalFormula import *
 
-
 # maximum number of iterations for the solver by fixpoint
 MAX_ITER = 5
 
 
 class RationalEquation:
-
     def __init__(self, sign, lhs, rhs):
         self.sign = sign
         self.lhs = lhs
@@ -16,9 +14,11 @@ class RationalEquation:
     def __str__(self):
         return self.sign + ' ' + self.lhs + ' = ' + str(self.rhs)
 
+    def __repr__(self):
+        return self.sign + ' ' + self.lhs + ' = ' + repr(self.rhs)
+
 
 class RationalEquationSystem:
-
     def __init__(self, equations):
         self.equations = equations
 
@@ -32,7 +32,6 @@ printInfo = False
 
 # creates the right-hand side of a boolean equation
 def RHS(state, formula):
-
     # in case operator is VAL, we just return itself
     if formula.op.type == "VAL":
         return valueFormula(formula.op.val)
@@ -68,16 +67,18 @@ def RHS(state, formula):
         return RationalFormulaNode(RationalOperatorNode("MINIMUM"), [valueFormula(1.0), addition])
     elif formula.op.type == "LAMBDA":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
-        multiplication1 = RationalFormulaNode(RationalOperatorNode("MULTIPLY"), [valueFormula(formula.op.val), operands[0]])
-        subtraction = RationalFormulaNode(RationalOperatorNode("SUBTRACT"), [valueFormula(1.0), valueFormula(formula.op.val)])
+        multiplication1 = RationalFormulaNode(RationalOperatorNode("MULTIPLY"),
+                                              [valueFormula(formula.op.val), operands[0]])
+        subtraction = RationalFormulaNode(RationalOperatorNode("SUBTRACT"),
+                                          [valueFormula(1.0), valueFormula(formula.op.val)])
         multiplication2 = RationalFormulaNode(RationalOperatorNode("MULTIPLY"), [subtraction, operands[1]])
         return RationalFormulaNode(RationalOperatorNode("ADD"), [multiplication1, multiplication2])
 
     # in case diamond or box, create formula with subformula for each outgoing transition with given action
     elif formula.op.type in ["DIAMOND", "BOX"]:
         products = [[RationalFormulaNode(RationalOperatorNode("MULTIPLY"), [
-                            valueFormula(t.enddist[endstate]), RHS(endstate, formula.subformulas[0])
-                        ]) for endstate in t.enddist.keys()
+            valueFormula(t.enddist[endstate]), RHS(endstate, formula.subformulas[0])
+        ]) for endstate in t.enddist.keys()
                      ] for t in model.outgoing(state, formula.op.action)]
 
         # in case no transitions, return 0 if diamond, else 1
@@ -109,13 +110,16 @@ def createRES(formula):
     for fixf in fixpoints:
         sign = "mu" if fixf.op.type == "LEASTFP" else "nu"
         for state in range(0, model.numstates):
-            equations += [RationalEquation(sign, fixf.op.var + str(state), RHS(state, fixf.subformulas[0]))]
+            equations += [RationalEquation(sign, fixf.op.var + str(state),
+                                           simplify(toNormalForm(simplify(RHS(state, fixf.subformulas[0]))), True))]
 
     return RationalEquationSystem(equations)
 
 
-def solveEquation(equation):
+# uses fixpoint approximation to solve equation
+def solveEquationApprox(equation):
     # fixpoint approximation
+    print("solving " + str(equation))
     var = equation.lhs
     oldrhs = None
     newrhs = valueFormula(0.0 if equation.sign == "mu" else 1.0)
@@ -129,6 +133,55 @@ def solveEquation(equation):
     return equation
 
 
+# solve equation var = formula for var
+# assumes normal form without max or min
+def solveForVar(formula, var, sign):
+
+    if not formula.containsVar(var):
+        return formula
+    else:
+        # solve (for now linear)
+        if formula.op.type == "VAR":
+            return valueFormula(0.0 if sign == "mu" else 1.0)
+        elif formula.op.type == "MULTIPLY":
+            return valueFormula(0.0)
+        else:
+            operandWithVar = [operand for operand in formula.operands if operand.containsVar(var)][0]
+            if operandWithVar.op.type == "VAR":
+                return valueFormula(0.0 if sign == "mu" else 1.0)
+            else:
+                val = [term.op.val for term in operandWithVar.operands if term.op.type == "VAL"][0]
+                operandsWithoutVar = [operand for operand in formula.operands if not operand.containsVar(var)]
+                scalar = 1.0 / (1.0 - val)
+                if len(operandsWithoutVar) == 1:
+                    scaledrhs = RationalFormulaNode(RationalOperatorNode("MULTIPLY"),
+                                                    [valueFormula(scalar), operandsWithoutVar[0]])
+                else:
+                    scaledrhs = RationalFormulaNode(RationalOperatorNode("MULTIPLY"),
+                                                    [valueFormula(scalar), RationalFormulaNode(
+                                                                     RationalOperatorNode("ADD"), operandsWithoutVar)
+                                                     ])
+                return simplify(toNormalForm(scaledrhs), True)
+
+
+# uses math to solve equation
+# requires normal form and variable in lhs also in rhs
+def solveEquation(equation):
+    print("solving " + str(equation.rhs) + " for " + equation.lhs)
+    if equation.rhs.op.type in ["MAXIMUM", "MINIMUM"]:
+        for i in range(len(equation.rhs.operands)):
+            operand = equation.rhs.operands[i]
+            if operand.op.type == "MINIMUM":
+                for j in range(len(operand.operands)):
+                    operand.operands[j] = solveForVar(operand.operands[j], equation.lhs, equation.sign)
+            else:
+                equation.rhs.operands[i] = solveForVar(operand, equation.lhs, equation.sign)
+    else:
+        equation.rhs = solveForVar(equation.rhs, equation.lhs, equation.sign)
+    print("result: " + repr(equation))
+    return equation
+
+
 def solveRES(res):
     if printInfo:
         print("##### SOLVING RES #####")
@@ -137,19 +190,17 @@ def solveRES(res):
         var = equation.lhs
         if printInfo:
             print("##### handling " + var)
-        equation.rhs = simplify(toNormalForm(simplify(equation.rhs)))
-        # print("simplified: " + str(equation.rhs))
         # solve own equation if necessary
         if equation.rhs.containsVar(var):
             if printInfo:
                 print("##### solving...")
-            solveEquation(equation)
+            equation.rhs = simplify(solveEquation(equation).rhs, True)
 
         # substitute above
         if printInfo:
             print("##### substituting...")
         for j in reversed(range(0, i)):
-            res.equations[j].rhs = substituteVar(res.equations[j].rhs, var, equation.rhs)
+            res.equations[j].rhs = simplify(toNormalForm(simplify(substituteVar(res.equations[j].rhs, var, equation.rhs))), True)
         if printInfo:
             print(str(res) + '\n')
 

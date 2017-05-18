@@ -116,6 +116,7 @@ class RationalOperatorNode:
 def valueFormula(value):
     return RationalFormulaNode(RationalOperatorNode("VAL", value))
 
+
 def variableFormula(var):
     return RationalFormulaNode(RationalOperatorNode("VAR", var))
 
@@ -125,7 +126,7 @@ def substituteVar(formula, var, new):
     if formula.op.type == "VAR" and formula.op.var == var:
         return copy.deepcopy(new)
     else:
-        for i in range(0, len(formula.operands)):
+        for i in range(len(formula.operands)):
             formula.operands[i] = substituteVar(formula.operands[i], var, new)
     return formula
 
@@ -146,16 +147,27 @@ def applyOperator(opType, values):
         return max(values)
 
 
-# tests whether every element in scalar vector 1 is less than or equal to those in scalar vector 2
-def compareScalarVectors(sv1, sv2):
-    for var in sv2:
-        if var in sv1 and sv1[var] > sv2[var]:
+# returns whether operand1 is definitely worse than operand2 when put together in opType
+def isWorseOperand(operand1, operand2, opType):
+    val1, scalar1 = operand1.getVariableScalar()
+    val2, scalar2 = operand2.getVariableScalar()
+    if opType == "MAXIMUM":
+        if val1 > val2:
             return False
+        for var in scalar2:
+            if var in scalar1 and scalar1[var] > scalar2[var]:
+                return False
+    else:
+        if val2 > val1:
+            return False
+        for var in scalar1:
+            if var in scalar2 and scalar2[var] > scalar1[var]:
+                return False
     return True
 
 
 def simplify(formula, afterNormalForm=False):
-    for i in range(0, len(formula.operands)):
+    for i in range(len(formula.operands)):
         formula.operands[i] = simplify(formula.operands[i], afterNormalForm)
 
     # print("simplifying " + str(formula))
@@ -198,8 +210,7 @@ def simplify(formula, afterNormalForm=False):
                     newOperands = [valueOperand] + nonValues
 
             # after: resolve unit elements
-            if (value == 0.0 and opType in ["ADD", "MAXIMUM"]) \
-                    or (value == 1.0 and opType in ["MULTIPLY", "MINIMUM"]) \
+            if (value == 0.0 and opType == "ADD") or (value == 1.0 and opType == "MULTIPLY") \
                     or (opType == "SUBTRACT" and newOperands[1].op.type == "VAL" and newOperands[1].op.val == 0.0):
                 if len(nonValues) == 1:
                     # print("found unit value with single nonvalue: " + str(nonValues[0]))
@@ -245,13 +256,13 @@ def simplify(formula, afterNormalForm=False):
                         for operand1 in newOperands:
                             for operand2 in newOperands:
                                 if operand1 != operand2 and operand1 not in worseOperands and operand2 not in worseOperands:
-                                    val1, scalar1 = operand1.getVariableScalar()
-                                    val2, scalar2 = operand2.getVariableScalar()
-                                    if val1 <= val2 and compareScalarVectors(scalar1, scalar2):
+                                    if isWorseOperand(operand1, operand2, opType):
                                         worseOperands += [operand1]
-                                    elif val2 <= val1 and compareScalarVectors(scalar2, scalar1):
+                                    elif isWorseOperand(operand2, operand1, opType):
                                         worseOperands += [operand2]
                         newOperands = [operand for operand in newOperands if operand not in worseOperands]
+                        if len(newOperands) == 1:
+                            return newOperands[0]
 
         formula.operands = newOperands
 
@@ -300,7 +311,7 @@ def distribute(formula, subOpType):
 # changes a rational formula to normal form: max{min{sum{p*X} + c*c'}}
 # requirement: operators have been flattened (formula is simplified
 def toNormalForm(formula):
-    for i in range(0, len(formula.operands)):
+    for i in range(len(formula.operands)):
         formula.operands[i] = toNormalForm(formula.operands[i])
 
     # print("bringing " + str(formula) + " to normal form")

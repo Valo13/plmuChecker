@@ -37,13 +37,13 @@ class RationalFormulaNode:
         if self.op.type == "VAL":
             return self.op.val, {}
         elif self.op.type == "VAR":
-            return 0, {self.op.var: 1}
+            return 0.0, {self.op.var: 1}
         elif self.op.type == "MULTIPLY":
             var = [term.op.var for term in self.operands if term.op.type == "VAR"][0]
             val = [term.op.val for term in self.operands if term.op.type == "VAL"][0]
-            return 0, {var: val}
+            return 0.0, {var: val}
         elif self.op.type == "ADD":
-            value = 0
+            value = 0.0
             scalars = {}
             for operand in self.operands:
                 val, scalar = operand.getVariableScalar()
@@ -154,12 +154,18 @@ def isWorseOperand(operand1, operand2, opType):
     if opType == "MAXIMUM":
         if val1 > val2:
             return False
+        for var in scalar1:
+            if var not in scalar2:
+                return False
         for var in scalar2:
             if var in scalar1 and scalar1[var] > scalar2[var]:
                 return False
     else:
         if val2 > val1:
             return False
+        for var in scalar2:
+            if var not in scalar1:
+                return False
         for var in scalar1:
             if var in scalar2 and scalar2[var] > scalar1[var]:
                 return False
@@ -251,6 +257,7 @@ def simplify(formula, afterNormalForm=False):
                             trimmedOperands += [operand]
                     newOperands = trimmedOperands
                     # if we are not dealing with MAXIMUM with MINIMUM terms, remove terms that are certainly worse
+                    # ALTER THIS WHEN USING TCOSUM AND TSUM
                     if not any([operand.op.type == "MINIMUM" for operand in newOperands]):
                         worseOperands = []
                         for operand1 in newOperands:

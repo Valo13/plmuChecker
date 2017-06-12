@@ -1,7 +1,7 @@
 import copy
 
 
-MAXITER = 100
+MAXITER = 1000
 variables = {}
 model = None
 printInfo = False

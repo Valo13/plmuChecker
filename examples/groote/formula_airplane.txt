@@ -1,0 +1,1 @@
+mu X.((<enter>X || <select_seat>X) || <last_passenger_has_his_own_seattrue>1)

@@ -9,7 +9,7 @@
 import os
 
 
-ASYMMETRIC = False
+ASYMMETRIC = True
 NONDETERMINISTIC = False
 
 WIDTH = 3

@@ -110,8 +110,8 @@ def createRES(formula):
     for fixf in fixpoints:
         sign = "mu" if fixf.op.type == "LEASTFP" else "nu"
         for state in range(0, model.numstates):
-            equations += [RationalEquation(sign, fixf.op.var + str(state),
-                                           simplify(toNormalForm(simplify(RHS(state, fixf.subformulas[0]))), True))]
+            rhs = RHS(state, fixf.subformulas[0])
+            equations += [RationalEquation(sign, fixf.op.var + str(state), simplify(toNormalForm(simplify(rhs)), True))]
 
     return RationalEquationSystem(equations)
 
@@ -119,7 +119,6 @@ def createRES(formula):
 # uses fixpoint approximation to solve equation
 def solveEquationApprox(equation):
     # fixpoint approximation
-    print("solving " + str(equation))
     var = equation.lhs
     oldrhs = None
     newrhs = valueFormula(0.0 if equation.sign == "mu" else 1.0)

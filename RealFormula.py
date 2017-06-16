@@ -14,6 +14,7 @@ import copy
 class RealFormulaNode:
 
     def __init__(self, operator, operands=None):
+        self.important = False
         self.op = operator
         if operands is None:
             operands = []
@@ -31,6 +32,13 @@ class RealFormulaNode:
                 return False
         else:
             return any([subop.containsVar(var) for subop in self.operands])
+
+    # important means that it should not be removed during the simplification that removes terms form max/min
+    def makeImportant(self):
+        self.important = True
+
+    def isImportant(self):
+        return self.important
 
     # get (value, {variable: its scalar})
     # for instance 0.5 + 0.2*X + Y + 0.6*Z returns (0.5, {X: 0.2, Y: 1, Z: 0.6})
@@ -174,7 +182,7 @@ def simplify(formula, afterNormalForm=False):
     for i in range(len(formula.operands)):
         formula.operands[i] = simplify(formula.operands[i], afterNormalForm)
 
-    # print("simplifying " + str(formula))
+    print("simplifying " + str(formula))
 
     if formula.type != "NULLARY":
         opType = formula.op.type
@@ -254,15 +262,16 @@ def simplify(formula, afterNormalForm=False):
                             trimmedOperands += [operand]
                     newOperands = trimmedOperands
                     # if we are not dealing with MAXIMUM with MINIMUM terms, remove terms that are certainly worse
-                    # ALTER THIS WHEN USING TCOSUM AND TSUM
                     if not any([operand.op.type == "MINIMUM" for operand in newOperands]):
                         worseOperands = []
                         for operand1 in newOperands:
                             for operand2 in newOperands:
+                                print(str(operand1) + " is important: " + str(operand1.isImportant()))
+                                print(str(operand2) + " is important: " + str(operand2.isImportant()))
                                 if operand1 != operand2 and operand1 not in worseOperands and operand2 not in worseOperands:
-                                    if isWorseOperand(operand1, operand2, opType):
+                                    if not operand1.isImportant() and isWorseOperand(operand1, operand2, opType):
                                         worseOperands += [operand1]
-                                    elif isWorseOperand(operand2, operand1, opType):
+                                    elif not operand2.isImportant() and isWorseOperand(operand2, operand1, opType):
                                         worseOperands += [operand2]
                         newOperands = [operand for operand in newOperands if operand not in worseOperands]
                         if len(newOperands) == 1:
@@ -270,7 +279,7 @@ def simplify(formula, afterNormalForm=False):
 
         formula.operands = newOperands
 
-    # print("result: " + str(formula))
+    print("result: " + str(formula))
     return formula
 
 
@@ -308,7 +317,12 @@ def distribute(formula, subOpType):
     combinations = makeCombinations(0)
 
     # create the new formula
-    newOperands = [RealFormulaNode(topop, otherOperands + combi) for combi in combinations]
+    newOperands = []
+    for combi in combinations:
+        newOperand = RealFormulaNode(topop, otherOperands + combi)
+        if any([operand.isImportant() for operand in combi]):
+            newOperand.makeImportant()
+        newOperands += [newOperand]
     return RealFormulaNode(distop, newOperands)
 
 

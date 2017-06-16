@@ -1,5 +1,6 @@
 import os
 from RealFormula import *
+from FormulaReader import *
 
 # maximum number of iterations for the solver by fixpoint
 MAX_ITER = 5
@@ -48,10 +49,10 @@ def RHS(state, formula):
     elif formula.op.type == "AND":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
         return RealFormulaNode(RealOperatorNode("MINIMUM"), operands)
-    elif formula.op.type == "PRODUCT":
+    elif formula.op.type == "PRODUCT":  # NOT SUPPORTED
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
         return RealFormulaNode(RealOperatorNode("MULTIPLY"), operands)
-    elif formula.op.type == "COPRODUCT":
+    elif formula.op.type == "COPRODUCT":  # NOT SUPPORTED
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
         addition = RealFormulaNode(RealOperatorNode("ADD"), operands)
         multiplication = RealFormulaNode(RealOperatorNode("MULTIPLY"), operands)
@@ -59,19 +60,20 @@ def RHS(state, formula):
     elif formula.op.type == "TCOSUM":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
         addition = RealFormulaNode(RealOperatorNode("ADD"), operands)
-        subtraction = RealFormulaNode(RealOperatorNode("MAXIMUM"), [addition, valueFormula(1.0)])
-        return RealFormulaNode(RealOperatorNode("MAXIMUM"), [valueFormula(0.0), subtraction])
+        subtraction = RealFormulaNode(RealOperatorNode("ADD"), [addition, valueFormula(-1.0)])
+        importantZero = valueFormula(0.0)
+        importantZero.makeImportant()
+        return RealFormulaNode(RealOperatorNode("MAXIMUM"), [importantZero, subtraction])
     elif formula.op.type == "TSUM":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
         addition = RealFormulaNode(RealOperatorNode("ADD"), operands)
-        return RealFormulaNode(RealOperatorNode("MINIMUM"), [valueFormula(1.0), addition])
+        importantOne = valueFormula(1.0)
+        importantOne.makeImportant()
+        return RealFormulaNode(RealOperatorNode("MINIMUM"), [importantOne, addition])
     elif formula.op.type == "LAMBDA":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
-        multiplication1 = RealFormulaNode(RealOperatorNode("MULTIPLY"),
-                                          [valueFormula(formula.op.val), operands[0]])
-        subtraction = RealFormulaNode(RealOperatorNode("SUBTRACT"),
-                                      [valueFormula(1.0), valueFormula(formula.op.val)])
-        multiplication2 = RealFormulaNode(RealOperatorNode("MULTIPLY"), [subtraction, operands[1]])
+        multiplication1 = RealFormulaNode(RealOperatorNode("MULTIPLY"), [valueFormula(formula.op.val), operands[0]])
+        multiplication2 = RealFormulaNode(RealOperatorNode("MULTIPLY"), [valueFormula(1 - formula.op.val), operands[1]])
         return RealFormulaNode(RealOperatorNode("ADD"), [multiplication1, multiplication2])
 
     # in case diamond or box, create formula with subformula for each outgoing transition with given action
@@ -106,6 +108,10 @@ def RHS(state, formula):
 
 def createRES(formula):
     fixpoints = formula.getSubFormulas(["LEASTFP", "GREATESTFP"])
+    # if there is no fixpoint, prepend a fixpoint operator
+    if not fixpoints:
+        formula = FormulaNode([[OperatorNode([OperatorNode(["X"], "VAR")], "LEASTFP"), formula]])
+        fixpoints = [formula]
     equations = []
     for fixf in fixpoints:
         sign = "mu" if fixf.op.type == "LEASTFP" else "nu"

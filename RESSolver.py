@@ -133,13 +133,14 @@ def solveEquationApprox(equation):
 
 
 # solve equation var = formula for var
-# assumes normal form without max or min
+# assumes that formula to be in normal form without max or min
+#    and that var is in formula
 def solveForVar(formula, var, sign):
 
     if not formula.containsVar(var):
         return formula
     else:
-        # solve (for now linear)
+        # solve (linear)
         if formula.op.type == "VAR":
             return valueFormula(0.0 if sign == "mu" else 1.0)
         elif formula.op.type == "MULTIPLY":
@@ -177,7 +178,8 @@ def solveEquation(equation):
                 equation.rhs.operands[i] = solveForVar(operand, equation.lhs, equation.sign)
     else:
         equation.rhs = solveForVar(equation.rhs, equation.lhs, equation.sign)
-    print("result: " + repr(equation))
+    if printInfo:
+        print("result: " + str(equation))
     return equation
 
 
@@ -217,8 +219,9 @@ def initRESSolver(ts, formula, store, verbose):
     model = ts
     printInfo = verbose
 
-    # for now, we do not allow formulas with the operators PRODUCT, COPRODUCT, TCOSUM and TSUM
-    if formula.getSubFormulas(["PRODUCT", "COPRODUCT", "TCOSUM", "TSUM"]):
+    # for now, we do not allow formulas with the operators PRODUCT and COPRODUCT
+    if formula.getSubFormulas(["PRODUCT", "COPRODUCT"]):
+        print("Operators product (*) and coproduct (#) are not supported")
         return None
 
     res = createRES(formula)

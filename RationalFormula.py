@@ -2,10 +2,14 @@ import copy
 
 
 # defines a rational formula and operators on it
-# for now we do not allow formulas generated using plmu operators PRODUCT, COPRODUCT, TCOSUM and TSUM
+# for now we do not allow formulas generated using plmu operators PRODUCT, and COPRODUCT
 #   so the operators + (ADD), * (MULTIPLY), min (MINIMUM) and max (MAXIMUM) are allowed
+#   subtract (from TCOSUM) is only applied to a value on the rhs, to handle this we allow value to be in [-1,1]
 #   all these operators are defined as multiary operators
-# rather: f = p | X | max(f,f) | min(f,f) | sum{p*f}
+# rather: f = c | X | max(f,f) | min(f,f) | sum{p*f}
+#   where p in [0,1] and c in [-1,1]
+# note that handling subtraction like this causes that not all RESs can be created from plmu model checking problems,
+#   but implementation wise it makes life easier
 
 class RationalFormulaNode:
 
@@ -16,8 +20,6 @@ class RationalFormulaNode:
         self.operands = operands
         if len(operands) == 0:  # in case of VAL, VAR
             self.type = "NULLARY"
-        elif operator.type == "SUBTRACT":
-            self.type = "BINARY"
         else:  # possible in case of ADD, MULTIPLY, MAXIMUM and MINIMUM (2 or more operands)
             self.type = "MULTIARY"
 
@@ -73,8 +75,6 @@ class RationalFormulaNode:
             return self.op.var
         elif self.op.type == "ADD":
             return "(" + " + ".join(str(operand) for operand in self.operands) + ")"
-        elif self.op.type == "SUBTRACT":
-            return "(" + str(self.operands[0]) + " - " + str(self.operands[1]) + ")"
         elif self.op.type == "MULTIPLY":
             return "(" + " * ".join(str(operand) for operand in self.operands) + ")"
         elif self.op.type == "MINIMUM":
@@ -134,8 +134,6 @@ def substituteVar(formula, var, new):
 def applyOperator(opType, values):
     if opType == "ADD":
         return sum(values)
-    elif opType == "SUBTRACT":
-        return values[0] - values[1]
     elif opType == "MULTIPLY":
         prod = 1
         for value in values:
@@ -216,8 +214,7 @@ def simplify(formula, afterNormalForm=False):
                     newOperands = [valueOperand] + nonValues
 
             # after: resolve unit elements
-            if (value == 0.0 and opType == "ADD") or (value == 1.0 and opType == "MULTIPLY") \
-                    or (opType == "SUBTRACT" and newOperands[1].op.type == "VAL" and newOperands[1].op.val == 0.0):
+            if (value == 0.0 and opType == "ADD") or (value == 1.0 and opType == "MULTIPLY"):
                 if len(nonValues) == 1:
                     # print("found unit value with single nonvalue: " + str(nonValues[0]))
                     return nonValues[0]
@@ -315,7 +312,7 @@ def distribute(formula, subOpType):
     return RationalFormulaNode(distop, newOperands)
 
 
-# changes a rational formula to normal form: max{min{sum{p*X} + c*c'}}
+# changes a rational formula to normal form: max{min{sum{p*X} + c}} where p in [0,1] and c in [-1,1]
 # requirement: operators have been flattened (formula is simplified
 def toNormalForm(formula):
     for i in range(len(formula.operands)):

@@ -23,6 +23,7 @@ def main():
             isOnlyProbabilistic = model.isProbabilistic or formula.isOnlyProbabilistic
 
             # do the checking
+            print("Computing result for formula " + str(formula))
             if args.equations:
                 if isOnlyProbabilistic:
                     result = RESSolver.initRESSolver(model, formula, args.store, args.verbose)
@@ -32,8 +33,8 @@ def main():
                 result = plmuChecker.checkNaiveInit(model, formula, args.verbose)
 
             if result is not None:
-                print("The result of " + str(formula) + " is: " + str(result))
+                print("The result of " + str(formula) + " is: " + str(result) + '\n')
             else:
-                print("Could not compute result for formula " + str(formula))
+                print("Could not compute result for formula " + str(formula) + '\n')
 
 main()

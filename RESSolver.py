@@ -1,11 +1,11 @@
 import os
-from RationalFormula import *
+from RealFormula import *
 
 # maximum number of iterations for the solver by fixpoint
 MAX_ITER = 5
 
 
-class RationalEquation:
+class RealEquation:
     def __init__(self, sign, lhs, rhs):
         self.sign = sign
         self.lhs = lhs
@@ -18,7 +18,7 @@ class RationalEquation:
         return self.sign + ' ' + self.lhs + ' = ' + repr(self.rhs)
 
 
-class RationalEquationSystem:
+class RealEquationSystem:
     def __init__(self, equations):
         self.equations = equations
 
@@ -39,44 +39,44 @@ def RHS(state, formula):
     # in case variable or fixpoint, its just a variable
     elif formula.op.type in ["VAR", "LEASTFP", "GREATESTFP"]:
         newVar = formula.op.var + str(state)
-        return RationalFormulaNode(RationalOperatorNode("VAR", newVar))
+        return RealFormulaNode(RealOperatorNode("VAR", newVar))
 
     # in case binary (OR, AND, PRODUCT, COPRODUCT, TCOSUM, TSUM, LAMBDA), apply semantics
     elif formula.op.type == "OR":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
-        return RationalFormulaNode(RationalOperatorNode("MAXIMUM"), operands)
+        return RealFormulaNode(RealOperatorNode("MAXIMUM"), operands)
     elif formula.op.type == "AND":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
-        return RationalFormulaNode(RationalOperatorNode("MINIMUM"), operands)
+        return RealFormulaNode(RealOperatorNode("MINIMUM"), operands)
     elif formula.op.type == "PRODUCT":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
-        return RationalFormulaNode(RationalOperatorNode("MULTIPLY"), operands)
+        return RealFormulaNode(RealOperatorNode("MULTIPLY"), operands)
     elif formula.op.type == "COPRODUCT":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
-        addition = RationalFormulaNode(RationalOperatorNode("ADD"), operands)
-        multiplication = RationalFormulaNode(RationalOperatorNode("MULTIPLY"), operands)
-        return RationalFormulaNode(RationalOperatorNode("SUBTRACT"), [addition, multiplication])
+        addition = RealFormulaNode(RealOperatorNode("ADD"), operands)
+        multiplication = RealFormulaNode(RealOperatorNode("MULTIPLY"), operands)
+        return RealFormulaNode(RealOperatorNode("SUBTRACT"), [addition, multiplication])
     elif formula.op.type == "TCOSUM":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
-        addition = RationalFormulaNode(RationalOperatorNode("ADD"), operands)
-        subtraction = RationalFormulaNode(RationalOperatorNode("MAXIMUM"), [addition, valueFormula(1.0)])
-        return RationalFormulaNode(RationalOperatorNode("MAXIMUM"), [valueFormula(0.0), subtraction])
+        addition = RealFormulaNode(RealOperatorNode("ADD"), operands)
+        subtraction = RealFormulaNode(RealOperatorNode("MAXIMUM"), [addition, valueFormula(1.0)])
+        return RealFormulaNode(RealOperatorNode("MAXIMUM"), [valueFormula(0.0), subtraction])
     elif formula.op.type == "TSUM":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
-        addition = RationalFormulaNode(RationalOperatorNode("ADD"), operands)
-        return RationalFormulaNode(RationalOperatorNode("MINIMUM"), [valueFormula(1.0), addition])
+        addition = RealFormulaNode(RealOperatorNode("ADD"), operands)
+        return RealFormulaNode(RealOperatorNode("MINIMUM"), [valueFormula(1.0), addition])
     elif formula.op.type == "LAMBDA":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]
-        multiplication1 = RationalFormulaNode(RationalOperatorNode("MULTIPLY"),
-                                              [valueFormula(formula.op.val), operands[0]])
-        subtraction = RationalFormulaNode(RationalOperatorNode("SUBTRACT"),
-                                          [valueFormula(1.0), valueFormula(formula.op.val)])
-        multiplication2 = RationalFormulaNode(RationalOperatorNode("MULTIPLY"), [subtraction, operands[1]])
-        return RationalFormulaNode(RationalOperatorNode("ADD"), [multiplication1, multiplication2])
+        multiplication1 = RealFormulaNode(RealOperatorNode("MULTIPLY"),
+                                          [valueFormula(formula.op.val), operands[0]])
+        subtraction = RealFormulaNode(RealOperatorNode("SUBTRACT"),
+                                      [valueFormula(1.0), valueFormula(formula.op.val)])
+        multiplication2 = RealFormulaNode(RealOperatorNode("MULTIPLY"), [subtraction, operands[1]])
+        return RealFormulaNode(RealOperatorNode("ADD"), [multiplication1, multiplication2])
 
     # in case diamond or box, create formula with subformula for each outgoing transition with given action
     elif formula.op.type in ["DIAMOND", "BOX"]:
-        products = [[RationalFormulaNode(RationalOperatorNode("MULTIPLY"), [
+        products = [[RealFormulaNode(RealOperatorNode("MULTIPLY"), [
             valueFormula(t.enddist[endstate]), RHS(endstate, formula.subformulas[0])
         ]) for endstate in t.enddist.keys()
                      ] for t in model.outgoing(state, formula.op.action)]
@@ -90,7 +90,7 @@ def RHS(state, formula):
             if len(products[0]) == 1:
                 return products[0][0]
             else:
-                return RationalFormulaNode(RationalOperatorNode("ADD"), products[0])
+                return RealFormulaNode(RealOperatorNode("ADD"), products[0])
 
         # in case more than one transition, create maximum if diamond, else minimum
         else:
@@ -100,8 +100,8 @@ def RHS(state, formula):
                 if len(transProducts) == 1:
                     sums += transProducts[0]
                 else:
-                    sums += [RationalFormulaNode(RationalOperatorNode("ADD"), transProducts)]
-            return RationalFormulaNode(RationalOperatorNode(op), sums)
+                    sums += [RealFormulaNode(RealOperatorNode("ADD"), transProducts)]
+            return RealFormulaNode(RealOperatorNode(op), sums)
 
 
 def createRES(formula):
@@ -111,9 +111,9 @@ def createRES(formula):
         sign = "mu" if fixf.op.type == "LEASTFP" else "nu"
         for state in range(0, model.numstates):
             rhs = RHS(state, fixf.subformulas[0])
-            equations += [RationalEquation(sign, fixf.op.var + str(state), simplify(toNormalForm(simplify(rhs)), True))]
+            equations += [RealEquation(sign, fixf.op.var + str(state), simplify(toNormalForm(simplify(rhs)), True))]
 
-    return RationalEquationSystem(equations)
+    return RealEquationSystem(equations)
 
 
 # uses fixpoint approximation to solve equation
@@ -133,8 +133,9 @@ def solveEquationApprox(equation):
 
 
 # solve equation var = formula for var
-# assumes that formula to be in normal form without max or min
-#    and that var is in formula
+# assumes that formula to be in normal form without max or min and that var is in formula
+# note that due to TCOSUM and TSUM the result may be outside [0,1]
+#   however, this is not an issue since there is another term somewhere that will be chosen above this one in that case
 def solveForVar(formula, var, sign):
 
     if not formula.containsVar(var):
@@ -154,13 +155,13 @@ def solveForVar(formula, var, sign):
                 operandsWithoutVar = [operand for operand in formula.operands if not operand.containsVar(var)]
                 scalar = 1.0 / (1.0 - val)
                 if len(operandsWithoutVar) == 1:
-                    scaledrhs = RationalFormulaNode(RationalOperatorNode("MULTIPLY"),
-                                                    [valueFormula(scalar), operandsWithoutVar[0]])
+                    scaledrhs = RealFormulaNode(RealOperatorNode("MULTIPLY"),
+                                                [valueFormula(scalar), operandsWithoutVar[0]])
                 else:
-                    scaledrhs = RationalFormulaNode(RationalOperatorNode("MULTIPLY"),
-                                                    [valueFormula(scalar), RationalFormulaNode(
-                                                                     RationalOperatorNode("ADD"), operandsWithoutVar)
-                                                     ])
+                    scaledrhs = RealFormulaNode(RealOperatorNode("MULTIPLY"),
+                                                [valueFormula(scalar), RealFormulaNode(
+                                                                     RealOperatorNode("ADD"), operandsWithoutVar)
+                                                 ])
                 return simplify(toNormalForm(scaledrhs), True)
 
 

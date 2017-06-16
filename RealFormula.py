@@ -1,7 +1,7 @@
 import copy
 
 
-# defines a rational formula and operators on it
+# defines a real formula and operators on it
 # for now we do not allow formulas generated using plmu operators PRODUCT, and COPRODUCT
 #   so the operators + (ADD), * (MULTIPLY), min (MINIMUM) and max (MAXIMUM) are allowed
 #   subtract (from TCOSUM) is only applied to a value on the rhs, to handle this we allow value to be in [-1,1]
@@ -11,7 +11,7 @@ import copy
 # note that handling subtraction like this causes that not all RESs can be created from plmu model checking problems,
 #   but implementation wise it makes life easier
 
-class RationalFormulaNode:
+class RealFormulaNode:
 
     def __init__(self, operator, operands=None):
         self.op = operator
@@ -91,7 +91,7 @@ class RationalFormulaNode:
             return self.op.type + "(" + ", ".join(repr(operand) for operand in self.operands) + ")"
 
 
-class RationalOperatorNode:
+class RealOperatorNode:
 
     def __init__(self, type, varorval=None):
         self.type = type
@@ -114,11 +114,11 @@ class RationalOperatorNode:
 
 
 def valueFormula(value):
-    return RationalFormulaNode(RationalOperatorNode("VAL", value))
+    return RealFormulaNode(RealOperatorNode("VAL", value))
 
 
 def variableFormula(var):
-    return RationalFormulaNode(RationalOperatorNode("VAR", var))
+    return RealFormulaNode(RealOperatorNode("VAR", var))
 
 
 # substitutes a formula 'new' for a variable 'var'
@@ -238,8 +238,8 @@ def simplify(formula, afterNormalForm=False):
                                 varScalars[var] = val
 
                         newOperands = nonMultOperands \
-                                      + [RationalFormulaNode(RationalOperatorNode("MULTIPLY"),
-                                                             [valueFormula(varScalars[var]), variableFormula(var)]) for var in varScalars]
+                                      + [RealFormulaNode(RealOperatorNode("MULTIPLY"),
+                                                         [valueFormula(varScalars[var]), variableFormula(var)]) for var in varScalars]
 
                 # remove duplicate and worse operands in minimum and maximum
                 if opType in ["MINIMUM", "MAXIMUM"]:
@@ -281,7 +281,7 @@ def simplify(formula, afterNormalForm=False):
 # returns None if no distribution necessary
 def distribute(formula, subOpType):
     topop = formula.op
-    distop = RationalOperatorNode(subOpType)
+    distop = RealOperatorNode(subOpType)
     toDistribute = [subf for subf in formula.operands if subf.op.type == subOpType]
     # if there is nothing to distribute over, we are immediately done
     if not toDistribute:
@@ -308,11 +308,11 @@ def distribute(formula, subOpType):
     combinations = makeCombinations(0)
 
     # create the new formula
-    newOperands = [RationalFormulaNode(topop, otherOperands + combi) for combi in combinations]
-    return RationalFormulaNode(distop, newOperands)
+    newOperands = [RealFormulaNode(topop, otherOperands + combi) for combi in combinations]
+    return RealFormulaNode(distop, newOperands)
 
 
-# changes a rational formula to normal form: max{min{sum{p*X} + c}} where p in [0,1] and c in [-1,1]
+# changes a real formula to normal form: max{min{sum{p*X} + c}} where p in [0,1] and c in [-1,1]
 # requirement: operators have been flattened (formula is simplified
 def toNormalForm(formula):
     for i in range(len(formula.operands)):

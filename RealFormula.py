@@ -182,7 +182,7 @@ def simplify(formula, afterNormalForm=False):
     for i in range(len(formula.operands)):
         formula.operands[i] = simplify(formula.operands[i], afterNormalForm)
 
-    print("simplifying " + str(formula))
+    # print("simplifying " + str(formula))
 
     if formula.type != "NULLARY":
         opType = formula.op.type
@@ -266,8 +266,6 @@ def simplify(formula, afterNormalForm=False):
                         worseOperands = []
                         for operand1 in newOperands:
                             for operand2 in newOperands:
-                                print(str(operand1) + " is important: " + str(operand1.isImportant()))
-                                print(str(operand2) + " is important: " + str(operand2.isImportant()))
                                 if operand1 != operand2 and operand1 not in worseOperands and operand2 not in worseOperands:
                                     if not operand1.isImportant() and isWorseOperand(operand1, operand2, opType):
                                         worseOperands += [operand1]
@@ -279,7 +277,7 @@ def simplify(formula, afterNormalForm=False):
 
         formula.operands = newOperands
 
-    print("result: " + str(formula))
+    # print("result: " + str(formula))
     return formula
 
 

@@ -155,7 +155,8 @@ def solveForVar(formula, var, sign):
         else:
             operandWithVar = [operand for operand in formula.operands if operand.containsVar(var)][0]
             if operandWithVar.op.type == "VAR":
-                return valueFormula(0.0 if sign == "mu" else 1.0)
+                print("found formula of form X = X + f, which may not have a solution")
+                raise ZeroDivisionError
             else:
                 val = [term.op.val for term in operandWithVar.operands if term.op.type == "VAL"][0]
                 operandsWithoutVar = [operand for operand in formula.operands if not operand.containsVar(var)]
@@ -238,4 +239,7 @@ def initRESSolver(ts, formula, store, verbose):
         f.write(str(res))
         f.close()
 
-    return solveRES(res)
+    try:
+        return solveRES(res)
+    except ZeroDivisionError:
+        return None

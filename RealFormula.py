@@ -57,7 +57,7 @@ class RealFormulaNode:
             scalars = {}
             for operand in self.operands:
                 val, scalar = operand.getVariableScalar()
-                if val > 0:
+                if val != 0:
                     value = val
                 scalars.update(scalar)
             return value, scalars
@@ -167,7 +167,7 @@ def isWorseOperand(operand1, operand2, opType):
             if var in scalar1 and scalar1[var] > scalar2[var]:
                 return False
     else:
-        if val2 > val1:
+        if val2 > val1 or val1 < 0:
             return False
         for var in scalar2:
             if var not in scalar1:

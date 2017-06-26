@@ -1,7 +1,8 @@
 % P>=0.4(nu Y.<a>Y)
-nu X.((nu Y.<a>Y ++ 3/5) * X)
-nu X.((nu Y.<a>Y ++ 3/5) -- X)
+nu X.((nu Y.<a>Y ++ 0.6) * X)
+nu X.((nu Y.<a>Y ++ 0.6) -- X)
 
 
 % nu Y.P>=0.4(<a>Y)
-nu Y.nu X.((<a>Y ++ 3/5) * X)
+nu Y.nu X.((<a>Y ++ 0.6) * X)
+nu Y.nu X.((<a>Y ++ 0.6) -- X)

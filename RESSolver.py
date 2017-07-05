@@ -100,7 +100,7 @@ def RHS(state, formula):
             sums = []
             for transProducts in products:
                 if len(transProducts) == 1:
-                    sums += transProducts[0]
+                    sums += [transProducts[0]]
                 else:
                     sums += [RealFormulaNode(RealOperatorNode("ADD"), transProducts)]
             return RealFormulaNode(RealOperatorNode(op), sums)

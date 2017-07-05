@@ -106,7 +106,7 @@ def grammar():
     LFLAT = Literal("[").suppress()
     RFLAT = Literal("]").suppress()
     DOT = Literal(".").suppress()
-    ACTION = Regex("[a-zA-Z_][a-zA-Z0-9_]*")
+    ACTION = Regex("[a-zA-Z_][a-zA-Z0-9_\(\)]*")
     MU = Keyword("mu").suppress()
     NU = Keyword("nu").suppress()
     PROB = Regex("1|0(\.[0-9]*)?")

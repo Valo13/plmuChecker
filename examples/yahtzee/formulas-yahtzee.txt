@@ -1,0 +1,4 @@
+mu X.(<throw>X || <write>X || <hold>X || <finalValue(18)>1)
+mu X.(<throw>X || <write>X || <hold>X || <finalValue(18)>1 || <finalValue(17)>1)
+mu X.(<throw>X || <write>X || <hold>X || <finalValue(18)>1 || <finalValue(17)>1 || <finalValue(16)>1 || <finalValue(15)>1 || <finalValue(14)>1 || <finalValue(13)>1 || <finalValue(12)>1 || <finalValue(11)>1 || <finalValue(10)>1)
+mu X.(<throw>X || <write>X || <hold>X || <finalValue(0)>1)

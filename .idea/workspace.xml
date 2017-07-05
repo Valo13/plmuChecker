@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e8429b72-ac6d-4996-bd9a-994207376195" name="Default" comment="changed bes and res file extensions">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/yahtzee/formulas-yahtzee.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/yahtzee/yahtzee.aut" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/yahtzee/yahtzee2t.aut" />
+    <list default="true" id="e8429b72-ac6d-4996-bd9a-994207376195" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FormulaReader.py" afterPath="$PROJECT_DIR$/FormulaReader.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RESSolver.py" afterPath="$PROJECT_DIR$/RESSolver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ParityGameSolver.py" afterPath="$PROJECT_DIR$/ParityGameSolver.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,8 +23,8 @@
       <file leaf-file-name="RESSolver.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RESSolver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-187">
-              <caret line="102" column="46" lean-forward="false" selection-start-line="102" selection-start-column="46" selection-end-line="102" selection-end-column="46" />
+            <state relative-caret-position="3995">
+              <caret line="237" column="63" lean-forward="false" selection-start-line="237" selection-start-column="35" selection-end-line="237" selection-end-column="63" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -48,7 +46,7 @@
         <entry file="file://$PROJECT_DIR$/TSReader.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1445">
-              <caret line="85" column="24" lean-forward="true" selection-start-line="85" selection-start-column="24" selection-end-line="85" selection-end-column="24" />
+              <caret line="85" column="24" lean-forward="false" selection-start-line="85" selection-start-column="24" selection-end-line="85" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -64,21 +62,53 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ParityGameSolver.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ParityGameSolver.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ParityGameSolver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="136">
+              <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+              <folding>
+                <element signature="e#67#76#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FormulaReader.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pg_dieAasB_formulas-AasB2.dot" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/examples/diceAB/pg_dieAasB_formulas-AasB2.dot">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="169">
+              <caret line="65" column="10" lean-forward="false" selection-start-line="65" selection-start-column="10" selection-end-line="65" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dotToSvg.bat" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/examples/diceAB/dotToSvg.bat">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="5" lean-forward="true" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FormulaReader.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FormulaReader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="107" column="20" lean-forward="false" selection-start-line="107" selection-start-column="20" selection-end-line="107" selection-end-column="20" />
+            <state relative-caret-position="884">
+              <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -125,15 +155,16 @@
         <option value="$PROJECT_DIR$/examples/tcosumtest/onestep.txt" />
         <option value="$PROJECT_DIR$/examples/tcosumtest/formulas-tcosumtest.txt" />
         <option value="$PROJECT_DIR$/ProVerT.py" />
-        <option value="$PROJECT_DIR$/ParityGameSolver.py" />
         <option value="$PROJECT_DIR$/examples/pgtest/singlestate.txt" />
         <option value="$PROJECT_DIR$/examples/pgtest/formulas-pgtest.txt" />
         <option value="$PROJECT_DIR$/examples/threshold/formulas-threshold.txt" />
         <option value="$PROJECT_DIR$/RealFormula.py" />
-        <option value="$PROJECT_DIR$/FormulaReader.py" />
         <option value="$PROJECT_DIR$/RESSolver.py" />
         <option value="$PROJECT_DIR$/examples/yahtzee/formulas-yahtzee.txt" />
         <option value="$PROJECT_DIR$/TSReader.py" />
+        <option value="$PROJECT_DIR$/FormulaReader.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/ParityGameSolver.py" />
       </list>
     </option>
   </component>
@@ -183,10 +214,6 @@
               <option name="myItemId" value="examples" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="yahtzee" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -201,18 +228,24 @@
               <option name="myItemId" value="examples" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="diceAB" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/examples/diceAB/pg_dieAasB_formulas-AasB2.dot&#10;D:/Documents/TUe/Graduation/tools/plmuChecker/examples/diceAB/dotToSvg.bat&#10;true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Documents\TUe\Graduation\tools\plmuChecker\examples\diceAB" />
       <recent name="D:\Documents\TUe\Graduation\tools\plmuChecker\examples\pgtest" />
     </key>
   </component>
@@ -230,7 +263,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="plmuChecker" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ProVerT.py" />
-      <option name="PARAMETERS" value="examples\yahtzee\yahtzee2t.aut examples\yahtzee\formulas-yahtzee.txt" />
+      <option name="PARAMETERS" value="-p examples\boardgame\board3x1.txt examples\boardgame\formulas-boardgame.txt" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
@@ -414,19 +447,26 @@
       <option name="project" value="LOCAL" />
       <updated>1493891603166</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added yahtzee example">
+      <created>1499244029023</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1499244029023</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="872" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.179375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3918742" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27391875" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -446,34 +486,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="changed bes and res file extensions" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed bes and res file extensions" />
+    <MESSAGE value="added yahtzee example" />
+    <option name="LAST_COMMIT_MESSAGE" value="added yahtzee example" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/boardGameGenerator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="10" lean-forward="true" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/diceAB/dieAasB_formulas-AasB2_RES.res">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plmuChecker.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1156">
-          <caret line="68" column="41" lean-forward="true" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/RealFormula.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -699,7 +719,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -711,59 +730,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/pgtest/game02.gm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/pgtest/game03.gm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/pgtest/game05.gm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/pgtest/game06.gm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/pgtest/game01.gm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/pgtest/game02.gm" />
+    <entry file="file://$PROJECT_DIR$/examples/pgtest/game03.gm" />
+    <entry file="file://$PROJECT_DIR$/examples/pgtest/game05.gm" />
+    <entry file="file://$PROJECT_DIR$/examples/pgtest/game06.gm" />
+    <entry file="file://$PROJECT_DIR$/examples/pgtest/game01.gm" />
     <entry file="file://$PROJECT_DIR$/examples/diceAB/dieAasB_formulas-AasB2_RES.res">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ParityGameSolver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -778,26 +753,60 @@
     <entry file="file://$PROJECT_DIR$/TSReader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1445">
-          <caret line="85" column="24" lean-forward="true" selection-start-line="85" selection-start-column="24" selection-end-line="85" selection-end-column="24" />
+          <caret line="85" column="24" lean-forward="false" selection-start-line="85" selection-start-column="24" selection-end-line="85" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FormulaReader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/RESSolver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-187">
-          <caret line="102" column="46" lean-forward="false" selection-start-line="102" selection-start-column="46" selection-end-line="102" selection-end-column="46" />
+        <state relative-caret-position="3995">
+          <caret line="237" column="63" lean-forward="false" selection-start-line="237" selection-start-column="35" selection-end-line="237" selection-end-column="63" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FormulaReader.py">
+    <entry file="file://$PROJECT_DIR$/examples/diceAB/dotToSvg.bat">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="107" column="20" lean-forward="false" selection-start-line="107" selection-start-column="20" selection-end-line="107" selection-end-column="20" />
+        <state relative-caret-position="17">
+          <caret line="1" column="5" lean-forward="true" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/diceAB/pg_dieAasB_formulas-AasB2.dot">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="65" column="10" lean-forward="false" selection-start-line="65" selection-start-column="10" selection-end-line="65" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ParityGameSolver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+          <folding>
+            <element signature="e#67#76#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

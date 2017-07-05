@@ -98,6 +98,10 @@ class OperatorNode:
         return self.type
 
 
+def lambdaFormula(val):
+    return FormulaNode([OperatorNode([val], "VAL")])
+
+
 def grammar():
     LCURLY = Literal("{").suppress()
     RCURLY = Literal("}").suppress()

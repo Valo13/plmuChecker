@@ -1,3 +1,6 @@
 *.pyc
 *.bes
 *.res
+*.dot
+*.bat
+*.svg

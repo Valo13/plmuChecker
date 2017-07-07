@@ -23,27 +23,19 @@ class ParityGameNode:
 
     def __str__(self):
         if self.owner == "NATURE":
-            return str(self.nid) + ":NATURE:" + str([{n.nid: p} for n, p in self.successors.items()]) + "\n"
+            return str(self.nid) + ":NATURE:" + str([{n.nid: p} for n, p in self.successors.items()])
         else:
             return str(self.nid) + ":" + self.owner + ":" + str(self.rank) + ":" + str([n.nid for n in self.successors]) \
-                   + ":(" + str(self.state) + ", " + self.formula + ")" + "\n"
+                   + ":(" + str(self.state) + ", " + self.formula + ")"
 
 
 class ParityGame:
     def __init__(self, initNode, nodes):
         self.initNode = initNode
         self.nodes = nodes
-        print(self.nodes)
 
     def __str__(self):
-        out = ""
-        for node in self.nodes:
-            if node.owner == "NATURE":
-                out += str(node.nid) + ":NATURE:" + str([{n.nid: p} for n, p in node.successors.items()]) + "\n"
-            else:
-                out += str(node.nid) + ":" + node.owner + ":" + str(node.rank) + ":" + str([n.nid for n in node.successors]) \
-                       + ":(" + str(node.state) + ", " + node.formula + ")" + (":INIT" if node is self.initNode else "") + "\n"
-        return out
+        return "\n".join([str(node) for node in self.nodes])
 
     def toDot(self, formulaName, suffix=""):
         out = "digraph parityGame {\n"
@@ -239,6 +231,7 @@ def initParityGameSolver(ts, formula, store, verbose, isProbabilistic):
     else:
         parityGame = createParityGame(formula)
     if parityGame is not None:
+        print(str(parityGame))
         parityGame.toDot(formula.name)
         reduceParityGame(parityGame).toDot(formula.name, "_red")
     return None

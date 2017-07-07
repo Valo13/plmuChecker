@@ -1,6 +1,11 @@
 # player even = player 1 (winning player)
 # player odd = player 2
 
+# reduction still needs to be tested for
+# - nested alternating fixpoints
+# - single circle parity game
+
+
 import os
 from FormulaReader import *
 
@@ -18,6 +23,7 @@ class ParityGameNode:
         else:
             self.successors = []
         self.reductionStarted = False
+        self.reduction = self
         self.state = None
         self.formula = ""
 
@@ -41,7 +47,7 @@ class ParityGame:
         out = "digraph parityGame {\n"
         for node in self.nodes:
             if node.owner == "NATURE":
-                out += "n" + str(node.nid) + "[shape=ellipse]\n"
+                out += "n" + str(node.nid) + "[shape=ellipse " + (",style=bold" if node is self.initNode else "") + "]\n"
             else:
                 out += "n" + str(node.nid) + "[shape=" + ("box" if node.owner == "ODD" else "diamond") \
                        + ", label=\"" + str(node.rank) + "\\n" + str(node.state) + "\\n" + node.formula + "\"" \
@@ -160,59 +166,78 @@ def createParityGame(formula, isProbabilistic=False):
     return ParityGame(playerNodes[model.initstate][str(formula)], allNodes)
 
 
+# if node can be removed, it will mark node with the node to reduce to
+# also removes successors that will never be picked
 def reduceParityGameRec(node):
-    if node.reductionStarted:
-        return node
-    else:
+    if not node.reductionStarted:
         node.reductionStarted = True
-    if node.owner == "NATURE":
-        newSuccessors = {}
-        for succ, p in node.successors.items():
-            newSucc = reduceParityGameRec(succ)
-            newSuccessors[newSucc] = p
-        node.successors = newSuccessors
+        if node.owner == "NATURE":
+            for succ in node.successors:
+                reduceParityGameRec(succ)
 
-        # if it only has one successor, simply return the successor instead
-        if len(node.successors) == 1:
-            return node.successors.keys()[0]
+            # if it only has one successor, we set this to be removed
+            if len(node.successors) == 1:
+                node.reduction = node.successors.keys()[0].reduction
         else:
-            return node
-    else:
-        for i in range(len(node.successors)):
-            node.successors[i] = reduceParityGameRec(node.successors[i])
+            for succ in node.successors:
+                reduceParityGameRec(succ)
 
-        # now the actual reductions
-        # remove successors that will certainly never be chosen (odd prio loop when even and dual)
-        newSuccessors = []
-        for succ in node.successors:
-            if not (succ.owner != "NATURE" and len(succ.successors) == 1 and succ.successors[0] is succ
-                    and ((node.owner == "EVEN" and succ.rank % 2 == 1) or (node.owner == "ODD" and succ.rank % 2 == 0))):
-                newSuccessors += [succ]
-        if not newSuccessors:
-            newSuccessors += [node.successors[0]]
-
-        # if it only has one successor, return that successor instead
-        #   change rank to minimum of both if successor is not a livelock
-        if len(newSuccessors) == 1:
-            newNode = newSuccessors[0]
-            if not (newNode.owner != "NATURE" and len(newNode.successors) == 1 and newNode.successors[0] is newNode):
-                newNode.rank = min(node.rank, newNode.rank)
-            return newNode
-        else:
+            # now the actual reductions
+            # remove successors that will certainly never be chosen
+            newSuccessors = []
+            for succ in node.successors:
+                red = succ.reduction
+                # search iteratively to find what the successor will reduce to
+                while red is not red.reduction:
+                    red = red.reduction
+                # remove if current node is even and the successor reduction (red) is a livelock with odd rank
+                #   (or current is odd, livelock has even rank)
+                if not (red.owner != "NATURE" and len(red.successors) == 1 and red.successors[0] is red
+                        and ((node.owner == "EVEN" and red.rank % 2 == 1) or (node.owner == "ODD" and red.rank % 2 == 0))):
+                    newSuccessors += [succ]
+            if not newSuccessors:
+                newSuccessors += [node.successors[0]]
             node.successors = newSuccessors
-            return node
+
+            # if it only has one successor, we set this node to be removed
+            #   change rank to minimum of both if successor is not a livelock
+            if len(newSuccessors) == 1:
+                newNode = newSuccessors[0]
+                newRed = newNode.reduction
+                if not (newRed.owner != "NATURE" and len(newRed.successors) == 1 and newRed.successors[0] is newRed):
+                    newRed.rank = min(node.rank, newRed.rank)
+                node.reduction = newRed
 
 
-def reachabilitySet(node, reachedNodes):
-    reachedNodes += [node]
-    for succ in node.successors:
-        if succ not in reachedNodes:
-            reachedNodes = reachabilitySet(succ, reachedNodes)
-    return reachedNodes
+reachedNodes = []
+
+
+# gathers all nodes that are reachable after reduction
+def reachabilitySet(node):
+    global reachedNodes
+    reducedNode = node.reduction
+    # continue searching when it can be further reduced
+    if reducedNode.reduction is not reducedNode:
+        return reachabilitySet(reducedNode.reduction)
+    else:
+        if reducedNode not in reachedNodes:
+            reachedNodes += [reducedNode]
+            if reducedNode.owner == "NATURE":
+                newSuccessors = {}
+                for succ, p in reducedNode.successors.items():
+                    newSuccessors[reachabilitySet(succ)] = p
+                reducedNode.successors = newSuccessors
+            else:
+                for i in range(len(reducedNode.successors)):
+                    reducedNode.successors[i] = reachabilitySet(reducedNode.successors[i])
+        return reducedNode
 
 
 def reduceParityGame(parityGame):
-    return ParityGame(parityGame.initNode, reachabilitySet(reduceParityGameRec(parityGame.initNode), []))
+    reduceParityGameRec(parityGame.initNode)
+    newInit = parityGame.initNode.reduction
+    reachabilitySet(newInit)
+    return ParityGame(newInit, reachedNodes)
 
 
 def initParityGameSolver(ts, formula, store, verbose, isProbabilistic):
@@ -231,7 +256,6 @@ def initParityGameSolver(ts, formula, store, verbose, isProbabilistic):
     else:
         parityGame = createParityGame(formula)
     if parityGame is not None:
-        print(str(parityGame))
         parityGame.toDot(formula.name)
         reduceParityGame(parityGame).toDot(formula.name, "_red")
     return None

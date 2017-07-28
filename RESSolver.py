@@ -10,7 +10,7 @@ class RealEquation:
     def __init__(self, sign, lhs, rhs):
         self.sign = sign
         self.lhs = lhs
-        self.rhs = rhs  # simplify(rhs)
+        self.rhs = rhs
 
     def __str__(self):
         return self.sign + ' ' + self.lhs + ' = ' + str(self.rhs)
@@ -25,6 +25,29 @@ class RealEquationSystem:
 
     def __str__(self):
         return '\n'.join(str(e) for e in self.equations)
+
+
+# given a RES, create an equivalent res where every equation does not contain both max and min
+# assumes that the res is simplified and in normal form
+def toDisConjunctiveForm(res):
+    newEquations = []
+    for equation in res.equations:
+        f = equation.rhs
+        if f.op.type == "MAXIMUM" and any([subf.op.type == "MINIMUM" for subf in f.operands]):
+            nr = 0
+            extraEquations = []
+            for i in range(len(f.operands)):
+                subf = f.operands[i]
+                if subf.op.type == "MINIMUM":
+                    newVar = equation.lhs + "-" + str(nr)
+                    nr += 1
+                    extraEquations += [RealEquation(equation.sign, newVar, subf)]
+                    f.operands[i] = newVar
+            newEquations += [equation] + extraEquations
+        else:
+            newEquations += [equation]
+
+    return RealEquationSystem(newEquations)
 
 
 model = None
@@ -106,7 +129,9 @@ def RHS(state, formula):
             return RealFormulaNode(RealOperatorNode(op), sums)
 
 
-def createRES(formula):
+def createRES(formula, ts):
+    global model
+    model = ts
     fixpoints = formula.getSubFormulas(["LEASTFP", "GREATESTFP"])
     # if there is no fixpoint, prepend a fixpoint operator
     if not fixpoints:
@@ -223,8 +248,7 @@ def solveRES(res):
 
 
 def initRESSolver(ts, formula, store, verbose):
-    global model, printInfo
-    model = ts
+    global printInfo
     printInfo = verbose
 
     # for now, we do not allow formulas with the operators PRODUCT and COPRODUCT
@@ -232,10 +256,10 @@ def initRESSolver(ts, formula, store, verbose):
         print("Operators product (*) and coproduct (#) are not supported")
         return None
 
-    res = createRES(formula)
+    res = createRES(formula, ts)
 
     if store:
-        f = open(os.path.sep.join([os.path.split(model.file)[0], model.name + "_" + formula.name + "_RES.res"]), 'w')
+        f = open(os.path.sep.join([os.path.split(model.file)[0], ts.name + "_" + formula.name + "_RES.res"]), 'w')
         f.write(str(res))
         f.close()
 

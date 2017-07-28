@@ -4,7 +4,7 @@ from FormulaReader import *
 import plmuChecker
 import BESSolver
 import RESSolver
-import ParityGameSolver
+import ParityGameCreator
 
 
 def main():
@@ -20,13 +20,13 @@ def main():
     model = readTS(args.model)
     formulas = readFormula(args.formulas)
 
-    if args.equations and args.paritygame:
-        print("choose at most one solving method")
-    else:
-        for formula in formulas:
-            if model != -1 and formula != -1:
-                isOnlyProbabilistic = model.isProbabilistic or formula.isOnlyProbabilistic
-
+    for formula in formulas:
+        if model != -1 and formula != -1:
+            isOnlyProbabilistic = model.isProbabilistic or formula.isOnlyProbabilistic
+            if args.paritygame:
+                print("Creating parity game for formula " + str(formula))
+                ParityGameCreator.initParityGameCreator(model, formula, args.equations, args.store, args.verbose, isOnlyProbabilistic)
+            else:
                 # do the checking
                 print("Computing result for formula " + str(formula))
                 if args.equations:
@@ -34,8 +34,6 @@ def main():
                         result = RESSolver.initRESSolver(model, formula, args.store, args.verbose)
                     else:
                         result = BESSolver.initBESSolver(model, formula, args.store, args.verbose)
-                elif args.paritygame:
-                    result = ParityGameSolver.initParityGameSolver(model, formula, args.store, args.verbose, isOnlyProbabilistic)
                 else:
                     result = plmuChecker.checkNaiveInit(model, formula, args.verbose)
 

@@ -328,8 +328,8 @@ def initParityGameCreator(ts, formula, fromRES, store, verbose, isProbabilistic)
     printInfo = verbose
 
     parityGame = None
-    if formula.getSubFormulas(["PRODUCT", "COPRODUCT", "TCOSUM", "TSUM"]):
-        print("The operators (co)product and truncated (co)sum are not supported")
+    if formula.getSubFormulas(["LABEL", "PRODUCT", "COPRODUCT", "TCOSUM", "TSUM"]):
+        print("The operators label, (co)product and truncated (co)sum are not supported for creating parity games")
     elif fromRES:
         parityGame = reduceParityGame(createParityGameFromRES(formula))
     else:

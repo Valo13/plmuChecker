@@ -22,24 +22,31 @@ def main():
 
     for formula in formulas:
         if model != -1 and formula != -1:
-            isOnlyProbabilistic = model.isProbabilistic or formula.isOnlyProbabilistic
-            if args.paritygame:
-                print("Creating parity game for formula " + str(formula))
-                ParityGameCreator.initParityGameCreator(model, formula, args.equations, args.store, args.verbose, isOnlyProbabilistic)
+            hasLabelOperator = bool(formula.getSubFormulas(["LABEL"]))
+            if hasLabelOperator and formula.getSubFormulas(["PRODUCT", "COPRODUCT", "TCOSUM", "TSUM"]):
+                print("The operators (co)product and truncated (co)sum are not supported when using the label operator")
             else:
-                # do the checking
-                print("Computing result for formula " + str(formula))
-                if args.equations:
-                    if isOnlyProbabilistic:
-                        result = RESSolver.initRESSolver(model, formula, args.store, args.verbose)
+                isOnlyProbabilistic = model.isProbabilistic or formula.isOnlyProbabilistic
+                if args.paritygame:
+                    print("Creating parity game for formula " + str(formula))
+                    ParityGameCreator.initParityGameCreator(model, formula, args.equations, args.store, args.verbose, isOnlyProbabilistic)
+                else:
+                    # do the model checking
+                    print("Computing result for formula " + str(formula))
+                    if args.equations:
+                        if isOnlyProbabilistic:
+                            result = RESSolver.initRESSolver(model, formula, args.store, args.verbose)
+                        else:
+                            result = BESSolver.initBESSolver(model, formula, args.store, args.verbose)
                     else:
-                        result = BESSolver.initBESSolver(model, formula, args.store, args.verbose)
-                else:
-                    result = plmuChecker.checkNaiveInit(model, formula, args.verbose)
+                        result = plmuChecker.checkNaiveInit(model, formula, args.verbose)
 
-                if result is not None:
-                    print("The result of " + str(formula) + " is: " + str(result) + '\n')
-                else:
-                    print("Could not compute result for formula " + str(formula) + '\n')
+                    if hasLabelOperator:
+                        result = result * model.labelFactor
+
+                    if result is not None:
+                        print("The result of " + str(formula) + " is: " + str(result) + '\n')
+                    else:
+                        print("Could not compute result for formula " + str(formula) + '\n')
 
 main()

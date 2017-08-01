@@ -22,13 +22,18 @@ class Transition:
 
 
 class TransitionSystem:
-    def __init__(self, file, initData, transitions, isProbabilistic):
+    def __init__(self, file, initData, transitions, labels, isProbabilistic):
         self.file = file
         self.name = os.path.splitext(os.path.basename(file))[0]
         self.initstate = int(initData[0])
+
         self.isProbabilistic = isProbabilistic
         if len(initData) > 1:
-            self.numstates = int(initData[1])
+            self.numtransitions = int(initData[1])
+        else:
+            self.numtransitions = len(transitions)
+        if len(initData) > 2:
+            self.numstates = int(initData[2])
         else:
             states = set()
             for t in transitions:
@@ -38,18 +43,30 @@ class TransitionSystem:
                     if s not in states:
                         states.add(s)
             self.numstates = len(states)
-        if len(initData) > 2:
-            self.numtransitions = int(initData[2])
-        else:
-            self.numtransitions = len(transitions)
 
         # index the transitions on start state for easy access
-        self.transitions = [[] for i in range(0, self.numstates)]
+        self.transitions = [[] for i in range(self.numstates)]
         for t in transitions:
             self.transitions[t.startstate] += [t]
 
+        # normalize the labels to [0,1] and store the factor to return them to the original value
+        self.labels = [0 for s in range(self.numstates)]
+        if labels:
+            self.labelFactor = max(labels.values())
+        else:
+            self.labelFactor = 1
+        for state in range(self.numstates):
+            if state in labels:
+                self.labels[state] = labels[state]/self.labelFactor
+
     def outgoing(self, state, action):
         return [t for t in self.transitions[state] if t.action == action]
+
+    def getLabel(self, state):
+        if state in self.labels:
+            return self.labels[state]
+        else:
+            return 0.0
 
     def __repr__(self):
         return 'des (' + str(self.initstate) + ', ' + str(self.numtransitions) + ', ' + str(self.numstates) + ')\n' + '\n'.join(str(t) for s in self.transitions for t in s)
@@ -80,6 +97,7 @@ def readTS(filename):
 
     try:
         isProbabilistic = False
+        labels = {}
         initData = lines[0][lines[0].find('(') + 1:lines[0].rfind(')')].split(',')
 
         transitionsData = lines[1:]
@@ -87,12 +105,17 @@ def readTS(filename):
         for t in transitionsData:
             if t.startswith('('):
                 tData = t[t.find('(') + 1:t.rfind(')')].split(',')
-                distData = tData[2].strip().split(' ')
+                beginState = int(tData[0])
+                action = tData[1].strip()[1:-1]
+                distData = extractDist(tData[2].strip().split(' '))
+                # extract label modeled as transition
+                if action.startswith("label(") and len(distData) == 1 and beginState in distData:
+                    value = float(action[action.find('(') + 1:action.rfind(')')])
+                    labels[beginState] = value
                 if len(distData) > 1:
                     isProbabilistic = True
-                transitions += [Transition(int(tData[0]), tData[1].strip()[1:-1], extractDist(distData))]
-
-        return TransitionSystem(filename, initData, transitions, isProbabilistic)
+                transitions += [Transition(beginState, action, distData)]
+        return TransitionSystem(filename, initData, transitions, labels, isProbabilistic)
     except (IndexError, ValueError):
         print("Supplied model is incorrectly specified. For syntax, see TSReader.py")
         return -1

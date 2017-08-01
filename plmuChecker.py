@@ -16,6 +16,8 @@ def checkNaive(formula, state):
             return formula.op.val
         elif formula.op.type == "VAR":
             return variables[formula.op.var][state]
+        elif formula.op.type == "LABEL":
+            return model.labels[state]
     elif formula.type == "UNARY":
         if formula.op.type == "DIAMOND":
             val = 0.0
@@ -41,7 +43,7 @@ def checkNaive(formula, state):
             newVars = ([0.0] if formula.op.type == "LEASTFP" else [1.0]) * model.numstates
             while variables[var] != newVars and i < MAXITER:
                 variables[var] = copy.copy(newVars)
-                for s in range(0, model.numstates):
+                for s in range(model.numstates):
                     newVars[s] = checkNaive(formula.subformulas[0], s)
                 if printInfo:
                     print("Iteration " + str(i) + ": " + str(variables))

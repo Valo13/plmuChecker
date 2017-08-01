@@ -65,6 +65,10 @@ def RHS(state, formula):
         newVar = formula.op.var + str(state)
         return RealFormulaNode(RealOperatorNode("VAR", newVar))
 
+    # in case of label operator, return the label
+    elif formula.op.type == "LABEL":
+        return valueFormula(model.labels[state])
+
     # in case binary (OR, AND, PRODUCT, COPRODUCT, TCOSUM, TSUM, LAMBDA), apply semantics
     elif formula.op.type == "OR":
         operands = [RHS(state, formula.subformulas[i]) for i in [0, 1]]

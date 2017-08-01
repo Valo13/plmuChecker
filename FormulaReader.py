@@ -71,6 +71,8 @@ class OperatorNode:
             return str(self.val)
         elif self.type == "VAR":
             return self.var
+        elif self.type == "LABEL":
+            return "l"
         elif self.type == "AND":
             return "&&"
         elif self.type == "OR":
@@ -117,6 +119,7 @@ def grammar():
 
     VAL = PROB.setParseAction(lambda tokens: OperatorNode(tokens, "VAL"))
     VAR = Regex("[A-Z]").setParseAction(lambda tokens: OperatorNode(tokens, "VAR"))
+    LABEL = Literal("l").setParseAction(lambda tokens: OperatorNode(tokens, "LABEL"))
     AND = Literal("&&").suppress().setParseAction(lambda tokens: OperatorNode(tokens, "AND"))
     OR = Literal("||").suppress().setParseAction(lambda tokens: OperatorNode(tokens, "OR"))
     PRODUCT = Literal("*").suppress().setParseAction(lambda tokens: OperatorNode(tokens, "PRODUCT"))
@@ -132,21 +135,22 @@ def grammar():
     OP1L = DIAMOND ^ BOX ^ LEASTFP ^ GREATESTFP
     OP2 = AND ^ OR ^ PRODUCT ^ COPRODUCT ^ TCOSUM ^ TSUM ^ LAMBDA
 
-    FORMULAATOM = (VAL ^ VAR).setParseAction(FormulaNode)
+    FORMULAATOM = (VAL ^ VAR ^ LABEL).setParseAction(FormulaNode)
 
     FORMULA = operatorPrecedence(FORMULAATOM, [(OP1L, 1, opAssoc.RIGHT, FormulaNode), (OP2, 2, opAssoc.LEFT, FormulaNode)])
 
     return FORMULA
 
 
+# adds information to a formula about what variables appear (closed and free)
+#  and whether the formula can only be interpreted as probabilistic
 def addInfo(formula):
     vars = []
     closedVars = []
     isOnlyProbabilistic = False
     if formula.op.type == "VAR":
         vars += [formula.op.var]
-    elif formula.op.type == "VAL":
-        if formula.op.val not in [0.0, 1.0]:
+    elif (formula.op.type == "VAL" and formula.op.val not in [0.0, 1.0]) or formula.op.type == "LABEL":
             isOnlyProbabilistic = True
     elif formula.type != "NULLARY":
         for subformula in formula.subformulas:

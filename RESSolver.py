@@ -26,6 +26,9 @@ class RealEquationSystem:
     def __str__(self):
         return '\n'.join(str(e) for e in self.equations)
 
+    def __repr__(self):
+        return '\n'.join(repr(e) for e in self.equations)
+
 
 # given a RES, create an equivalent res where every equation does not contain both max and min
 # assumes that the res is simplified and in normal form
@@ -136,11 +139,10 @@ def RHS(state, formula):
 def createRES(formula, ts):
     global model
     model = ts
+    # alter the formula so that it starts with a fixpoint operator
+    if formula.op.type not in ["LEASTFP", "GREATESTFP"]:
+        formula = FormulaNode([[OperatorNode([OperatorNode(["Q"], "VAR")], "LEASTFP"), formula]])
     fixpoints = formula.getSubFormulas(["LEASTFP", "GREATESTFP"])
-    # if there is no fixpoint, prepend a fixpoint operator
-    if not fixpoints:
-        formula = FormulaNode([[OperatorNode([OperatorNode(["X"], "VAR")], "LEASTFP"), formula]])
-        fixpoints = [formula]
     equations = []
     for fixf in fixpoints:
         sign = "mu" if fixf.op.type == "LEASTFP" else "nu"
@@ -151,9 +153,37 @@ def createRES(formula, ts):
     return RealEquationSystem(equations)
 
 
+# creates a RES with only equations that matter for the solution
+def createLocalRES(formula, ts):
+    global model
+    model = ts
+    # alter the formula so that it starts with a fixpoint operator
+    if formula.op.type not in ["LEASTFP", "GREATESTFP"]:
+        formula = FormulaNode([[OperatorNode([OperatorNode(["Q"], "VAR")], "LEASTFP"), formula]])
+    fixpoints = formula.getSubFormulas(["LEASTFP", "GREATESTFP"])
+    equations = []
+    varQueue = [formula.op.var + str(model.initstate)]
+    varQueuePointer = 0
+    while len(varQueue) > varQueuePointer:
+        var = varQueue[varQueuePointer]
+        fixVar = var[0]
+        state = int(var[1:])
+        fixf = [fixf for fixf in fixpoints if fixf.op.var == fixVar][0]
+        sign = "mu" if fixf.op.type == "LEASTFP" else "nu"
+        rhs = RHS(state, fixf.subformulas[0])
+        # add variables to the queue to make equations for
+        for varFormula in rhs.getSubFormulas(["VAR"]):
+            newVar = varFormula.op.var
+            if newVar not in varQueue:
+                varQueue += [newVar]
+        equations += [RealEquation(sign, var, simplify(toNormalForm(simplify(rhs)), True))]
+        varQueuePointer += 1
+
+    return RealEquationSystem(equations)
+
+
 # uses fixpoint approximation to solve equation
 def solveEquationApprox(equation):
-    # fixpoint approximation
     var = equation.lhs
     oldrhs = None
     newrhs = valueFormula(0.0 if equation.sign == "mu" else 1.0)
@@ -184,7 +214,7 @@ def solveForVar(formula, var, sign):
         else:
             operandWithVar = [operand for operand in formula.operands if operand.containsVar(var)][0]
             if operandWithVar.op.type == "VAR":
-                print("found formula of form X = X + f, which may not have a solution")
+                # print("found formula of form X = X + f, which may not have a solution")
                 raise ZeroDivisionError
             else:
                 val = [term.op.val for term in operandWithVar.operands if term.op.type == "VAL"][0]
@@ -204,7 +234,7 @@ def solveForVar(formula, var, sign):
 # uses math to solve equation
 # requires normal form and variable in lhs also in rhs
 def solveEquation(equation):
-    print("solving " + str(equation.rhs) + " for " + equation.lhs)
+    # print("solving " + str(equation.rhs) + " for " + equation.lhs)
     if equation.rhs.op.type in ["MAXIMUM", "MINIMUM"]:
         for i in range(len(equation.rhs.operands)):
             operand = equation.rhs.operands[i]
@@ -220,7 +250,7 @@ def solveEquation(equation):
     return equation
 
 
-def solveRES(res):
+def solveRES(res, local):
     if printInfo:
         print("##### SOLVING RES #####")
     for i in reversed(range(0, len(res.equations))):
@@ -242,16 +272,20 @@ def solveRES(res):
         if printInfo:
             print(str(res) + '\n')
 
-    # get the value for the initial state by substituting the resulting value downward
-    for i in range(1, model.initstate + 1):
-        for j in range(i):
-            res.equations[i].rhs = substituteVar(res.equations[i].rhs, res.equations[j].lhs, res.equations[j].rhs)
-        res.equations[i].rhs = simplify(res.equations[i].rhs)
+    if local:
+        print(res)
+        return float(res.equations[0].rhs.op.val)
+    else:
+        # get the value for the initial state by substituting the resulting value downward
+        for i in range(1, model.initstate + 1):
+            for j in range(i):
+                res.equations[i].rhs = substituteVar(res.equations[i].rhs, res.equations[j].lhs, res.equations[j].rhs)
+            res.equations[i].rhs = simplify(res.equations[i].rhs)
 
-    return float(res.equations[model.initstate].rhs.op.val)
+        return float(res.equations[model.initstate].rhs.op.val)
 
 
-def initRESSolver(ts, formula, store, verbose):
+def initRESSolver(ts, formula, store, verbose, local):
     global printInfo
     printInfo = verbose
 
@@ -260,7 +294,10 @@ def initRESSolver(ts, formula, store, verbose):
         print("Operators product (*) and coproduct (#) are not supported")
         return None
 
-    res = createRES(formula, ts)
+    if local:
+        res = createLocalRES(formula, ts)
+    else:
+        res = createRES(formula, ts)
 
     if store:
         f = open(os.path.sep.join([os.path.split(model.file)[0], ts.name + "_" + formula.name + "_RES.res"]), 'w')
@@ -268,6 +305,6 @@ def initRESSolver(ts, formula, store, verbose):
         f.close()
 
     try:
-        return solveRES(res)
+        return solveRES(res, local)
     except ZeroDivisionError:
         return None

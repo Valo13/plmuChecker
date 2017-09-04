@@ -24,6 +24,15 @@ class RealFormulaNode:
         else:  # possible in case of ADD, MULTIPLY, MAXIMUM and MINIMUM (2 or more operands)
             self.type = "MULTIARY"
 
+    # gets all subformulas with operator type in 'optypes'
+    def getSubFormulas(self, optypes):
+        subf = []
+        if self.op.type in optypes:
+            subf += [self]
+        for f in self.operands:
+            subf += f.getSubFormulas(optypes)
+        return subf
+
     def containsVar(self, var):
         if self.type == "NULLARY":
             if self.op.type == "VAR" and self.op.var == var:
@@ -248,6 +257,8 @@ def simplify(formula, afterNormalForm=False):
                         newOperands = nonMultOperands \
                                       + [RealFormulaNode(RealOperatorNode("MULTIPLY"),
                                                          [valueFormula(varScalars[var]), variableFormula(var)]) for var in varScalars]
+                        if len(newOperands) == 1:
+                            return newOperands[0]
 
                 # remove duplicate and worse operands in minimum and maximum
                 if opType in ["MINIMUM", "MAXIMUM"]:

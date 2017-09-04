@@ -11,6 +11,7 @@ import ParityGameCreator
 def main():
     parser = argparse.ArgumentParser(description='check a plmu formula on a PLTS')
     parser.add_argument("-e", "--equations", help="solve via BES or RES", action="store_true")
+    parser.add_argument("-l", "--local", help="create local RES", action="store_true")
     parser.add_argument("-p", "--paritygame", help="solve via paritygame", action="store_true")
     parser.add_argument("-s", "--store", help="store intermediate results such as a BES", action="store_true")
     parser.add_argument("-v", "--verbose", help="display info", action="store_true")
@@ -36,7 +37,7 @@ def main():
                     print("Computing result for formula " + str(formula))
                     if args.equations:
                         if isOnlyProbabilistic:
-                            result = RESSolver.initRESSolver(model, formula, args.store, args.verbose)
+                            result = RESSolver.initRESSolver(model, formula, args.store, args.verbose, args.local)
                         else:
                             result = BESSolver.initBESSolver(model, formula, args.store, args.verbose)
                     else:

@@ -1,4 +1,5 @@
 import argparse
+import time
 from TSReader import *
 from FormulaReader import *
 import plmuChecker
@@ -19,7 +20,7 @@ def main():
 
     model = readTS(args.model)
     formulas = readFormula(args.formulas)
-
+    elapsedTime = time.clock()
     for formula in formulas:
         if model != -1 and formula != -1:
             hasLabelOperator = bool(formula.getSubFormulas(["LABEL"]))
@@ -44,8 +45,10 @@ def main():
                     if hasLabelOperator:
                         result = result * model.labelFactor
 
+                    elapsedTime = time.clock() - elapsedTime
                     if result is not None:
-                        print("The result of " + str(formula) + " is: " + str(result) + '\n')
+                        print("The result of " + str(formula) + " is: " + str(result))
+                        print("Time elapsed: " + str(elapsedTime) + ' seconds\n')
                     else:
                         print("Could not compute result for formula " + str(formula) + '\n')
 

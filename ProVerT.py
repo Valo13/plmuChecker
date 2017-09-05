@@ -62,9 +62,10 @@ def main():
                         elapsedTime = newClock
 
                     print("The result of " + str(formula) + " is: " + str(result))
-                    print("Running time: " + str(sum(runningTimes)/numberOfRuns) + ' seconds\n')
+                    print("Running time: " + str(sum(runningTimes)/numberOfRuns) + ' seconds')
                     if numberOfRuns > 1:
                         print("Individual timings: " + str(runningTimes))
+                    print('\n')
 
 
 main()

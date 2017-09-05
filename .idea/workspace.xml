@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e8429b72-ac6d-4996-bd9a-994207376195" name="Default" comment="added a wa">
+    <list default="true" id="e8429b72-ac6d-4996-bd9a-994207376195" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProVerT.py" afterPath="$PROJECT_DIR$/ProVerT.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RESSolver.py" afterPath="$PROJECT_DIR$/RESSolver.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RealFormula.py" afterPath="$PROJECT_DIR$/RealFormula.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" afterPath="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/boardGameGenerator.py" afterPath="$PROJECT_DIR$/boardGameGenerator.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,11 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RESSolver.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RESSolver.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RESSolver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="39" lean-forward="true" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
+            <state relative-caret-position="4675">
+              <caret line="275" column="0" lean-forward="false" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -32,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="formulas-boardgame.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt">
+      <file leaf-file-name="ant_on_grid.aut" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/examples/mCRL2/ant_on_grid.aut">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+            <state relative-caret-position="-3754">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -84,21 +83,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plmuChecker.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/plmuChecker.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="48" column="22" lean-forward="false" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProVerT.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ProVerT.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ProVerT.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="35" column="43" lean-forward="true" selection-start-line="35" selection-start-column="43" selection-end-line="35" selection-end-column="43" />
+            <state relative-caret-position="269">
+              <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -163,7 +152,6 @@
       <list>
         <option value="$PROJECT_DIR$/BESSolver.py" />
         <option value="$PROJECT_DIR$/examples/diceAB/formulas-AasB.txt" />
-        <option value="$PROJECT_DIR$/boardGameGenerator.py" />
         <option value="$PROJECT_DIR$/examples/diceAB/dieAasB_formulas-AasB2_RES.res" />
         <option value="$PROJECT_DIR$/examples/groote/formula_airplane.txt" />
         <option value="$PROJECT_DIR$/examples/groote/airplane_ticket.aut" />
@@ -182,10 +170,11 @@
         <option value="$PROJECT_DIR$/plmuChecker.py" />
         <option value="$PROJECT_DIR$/TSReader.py" />
         <option value="$PROJECT_DIR$/examples/yahtzee/formulas-yahtzee.txt" />
-        <option value="$PROJECT_DIR$/ProVerT.py" />
         <option value="$PROJECT_DIR$/RealFormula.py" />
-        <option value="$PROJECT_DIR$/RESSolver.py" />
         <option value="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" />
+        <option value="$PROJECT_DIR$/boardGameGenerator.py" />
+        <option value="$PROJECT_DIR$/RESSolver.py" />
+        <option value="$PROJECT_DIR$/ProVerT.py" />
       </list>
     </option>
   </component>
@@ -226,7 +215,13 @@
               <item name="plmuChecker" type="b2602c69:ProjectViewProjectNode" />
               <item name="plmuChecker" type="462c0819:PsiDirectoryNode" />
               <item name="examples" type="462c0819:PsiDirectoryNode" />
-              <item name="boardgame" type="462c0819:PsiDirectoryNode" />
+              <item name="mCRL2" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="plmuChecker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="plmuChecker" type="462c0819:PsiDirectoryNode" />
+              <item name="examples" type="462c0819:PsiDirectoryNode" />
+              <item name="yahtzee" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -272,7 +267,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="plmuChecker" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ProVerT.py" />
-      <option name="PARAMETERS" value="-evl examples\boardgame\board3x3.txt examples\boardgame\formulas-boardgame.txt" />
+      <option name="PARAMETERS" value="-r50 examples\mCRL2\ant_on_grid.aut examples\mCRL2\formula-ant.txt" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
@@ -519,7 +514,14 @@
       <option name="project" value="LOCAL" />
       <updated>1504525766268</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="added a way of creating a RES that only creates equations that are necessary for the solution (local)">
+      <created>1504533357266</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1504533357266</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -561,7 +563,8 @@
     <MESSAGE value="paritygames can now be created from RESs" />
     <MESSAGE value="added a label operator to allow checking for average values (see yahtzee example)" />
     <MESSAGE value="added time measurements" />
-    <option name="LAST_COMMIT_MESSAGE" value="added time measurements" />
+    <MESSAGE value="added a way of creating a RES that only creates equations that are necessary for the solution (local)" />
+    <option name="LAST_COMMIT_MESSAGE" value="added a way of creating a RES that only creates equations that are necessary for the solution (local)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -570,14 +573,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/RealFormula.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ProVerT.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
@@ -698,13 +693,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/boardGameGenerator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="17" lean-forward="false" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/groote/formula_airplane.txt" />
     <entry file="file://$PROJECT_DIR$/examples/groote/airplane_ticket.aut" />
     <entry file="file://$PROJECT_DIR$/RandomRESGenerator.py" />
@@ -810,16 +798,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ProVerT.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="35" column="43" lean-forward="true" selection-start-line="35" selection-start-column="43" selection-end-line="35" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/RealFormula.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1601">
@@ -836,12 +814,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/boardGameGenerator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="18" lean-forward="false" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/mCRL2/ant_on_grid.aut">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3754">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/RESSolver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="39" lean-forward="true" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
+        <state relative-caret-position="4675">
+          <caret line="275" column="0" lean-forward="false" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProVerT.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>

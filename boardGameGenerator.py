@@ -9,11 +9,11 @@
 import os
 
 
-ASYMMETRIC = True
+ASYMMETRIC = False
 NONDETERMINISTIC = False
 
-WIDTH = 3
-HEIGHT = 1
+WIDTH = 2
+HEIGHT = 3
 
 
 def main():

@@ -273,7 +273,6 @@ def solveRES(res, local):
             print(str(res) + '\n')
 
     if local:
-        print(res)
         return float(res.equations[0].rhs.op.val)
     else:
         # get the value for the initial state by substituting the resulting value downward

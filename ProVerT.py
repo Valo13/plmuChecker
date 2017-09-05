@@ -63,6 +63,8 @@ def main():
 
                     print("The result of " + str(formula) + " is: " + str(result))
                     print("Running time: " + str(sum(runningTimes)/numberOfRuns) + ' seconds\n')
+                    if numberOfRuns > 1:
+                        print("Individual timings: " + str(runningTimes))
 
 
 main()

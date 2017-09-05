@@ -4,8 +4,6 @@
     <list default="true" id="e8429b72-ac6d-4996-bd9a-994207376195" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProVerT.py" afterPath="$PROJECT_DIR$/ProVerT.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RESSolver.py" afterPath="$PROJECT_DIR$/RESSolver.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/boardGameGenerator.py" afterPath="$PROJECT_DIR$/boardGameGenerator.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -86,8 +84,8 @@
       <file leaf-file-name="ProVerT.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ProVerT.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+            <state relative-caret-position="1054">
+              <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -521,7 +519,14 @@
       <option name="project" value="LOCAL" />
       <updated>1504533357266</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="added an argument that allows to compute the average running time over a number of runs">
+      <created>1504616435533</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1504616435534</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -564,7 +569,8 @@
     <MESSAGE value="added a label operator to allow checking for average values (see yahtzee example)" />
     <MESSAGE value="added time measurements" />
     <MESSAGE value="added a way of creating a RES that only creates equations that are necessary for the solution (local)" />
-    <option name="LAST_COMMIT_MESSAGE" value="added a way of creating a RES that only creates equations that are necessary for the solution (local)" />
+    <MESSAGE value="added an argument that allows to compute the average running time over a number of runs" />
+    <option name="LAST_COMMIT_MESSAGE" value="added an argument that allows to compute the average running time over a number of runs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -842,8 +848,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ProVerT.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+        <state relative-caret-position="1054">
+          <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

@@ -299,7 +299,8 @@ def initRESSolver(ts, formula, store, verbose, local):
         res = createRES(formula, ts)
 
     if store:
-        f = open(os.path.sep.join([os.path.split(model.file)[0], ts.name + "_" + formula.name + "_RES.res"]), 'w')
+        f = open(os.path.sep.join([os.path.split(model.file)[0],
+                                   ts.name + "_" + formula.name + "_RES" + ("_local" if local else "") + ".res"]), 'w')
         f.write(str(res))
         f.close()
 

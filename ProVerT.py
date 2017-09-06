@@ -15,7 +15,7 @@ def main():
     parser.add_argument("-p", "--paritygame", help="solve via paritygame", action="store_true")
     parser.add_argument("-s", "--store", help="store intermediate results such as a BES", action="store_true")
     parser.add_argument("-v", "--verbose", help="display info", action="store_true")
-    parser.add_argument('-r', "--runs", default=1, action='store', nargs=1, type=int, help='run the same problem multiple times and give the average running time')
+    parser.add_argument('-r', "--runs", default=[1], action='store', nargs=1, type=int, help='run the same problem multiple times and give the average running time')
     parser.add_argument('model', help='the model to check a formula on (path to file)')
     parser.add_argument('formulas', help='the formula(s) to check on a model (path to file)')
     args = parser.parse_args()

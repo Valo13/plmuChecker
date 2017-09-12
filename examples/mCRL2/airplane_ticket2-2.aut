@@ -1,0 +1,8 @@
+des (0,7,8)                                         
+(0,"enter",2 1/2 1)
+(1,"enter",3)
+(2,"enter",4)
+(3,"enter_plane",5)
+(4,"enter_plane",6)
+(5,"last_passenger_has_his_own_seat(false)",7)
+(6,"last_passenger_has_his_own_seat(true)",7)

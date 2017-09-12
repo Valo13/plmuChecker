@@ -1,0 +1,1 @@
+mu X.((<enter>X || <enter_plane>X) || <last_passenger_has_his_own_seat(true)>1)

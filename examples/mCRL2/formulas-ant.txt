@@ -1,0 +1,4 @@
+mu X.(<step>X || <live>1)
+mu X.(<step>X || <dead>1)
+nu X.([step]X && [live]0 && [dead]0)
+mu X.(<step>X || <live>1) ++ mu Y.(<step>Y || <dead>1)

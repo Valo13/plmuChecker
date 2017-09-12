@@ -12,8 +12,8 @@ import os
 ASYMMETRIC = False
 NONDETERMINISTIC = False
 
-WIDTH = 2
-HEIGHT = 3
+WIDTH = 1
+HEIGHT = 5
 
 
 def main():

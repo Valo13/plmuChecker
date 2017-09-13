@@ -1,0 +1,1 @@
+mu X.(<moveLeft><moveLeft>X || <moveLeft><moveRight>X || <moveRight><moveLeft>X || <moveRight><moveLeft>X || <won>1)

@@ -161,22 +161,22 @@ def createRES(formula, ts):
 
 # remove all equations that are not needed for the solution
 def makeRESlocal(res):
-    neededEquations = {var: False for var in model.indexedEquations.keys()}
+    neededEquations = {var: False for var in res.indexedEquations.keys()}
     newEquations = []
     varQueue = [res.initVar]
     varQueuePointer = 0
     neededEquations[res.initVar] = True
     while varQueuePointer < len(varQueue):
-        for varFormula in res.indexedEquations[varQueue[varQueuePointer]].rhs.getSubformulas(["VAR"]):
+        for varFormula in res.indexedEquations[varQueue[varQueuePointer]].rhs.getSubFormulas(["VAR"]):
             var = varFormula.op.var
             if var not in varQueue:
                 neededEquations[var] = True
                 varQueue += [var]
         varQueuePointer += 1
 
-    for var in res.indexedEquations:
-        if neededEquations[var]:
-            newEquations += res.indexedEquations[var]
+    for eq in res.equations:
+        if neededEquations[eq.lhs]:
+            newEquations += [eq]
 
     return RealEquationSystem(newEquations, res.initVar)
 
@@ -278,7 +278,6 @@ def solveRES(res):
             res.equations[j].rhs = simplify(substituteVar(res.equations[j].rhs, res.equations[i].lhs, res.equations[i].rhs))
         i += 1
         nextEquation = res.equations[i]
-    print(res.equations[i].rhs)
     return float(res.equations[i].rhs.op.val)
 
 

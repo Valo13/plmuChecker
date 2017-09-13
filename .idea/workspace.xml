@@ -4,6 +4,7 @@
     <list default="true" id="e8429b72-ac6d-4996-bd9a-994207376195" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RESSolver.py" afterPath="$PROJECT_DIR$/RESSolver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" afterPath="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,8 +21,8 @@
       <file leaf-file-name="RESSolver.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/RESSolver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
-              <caret line="178" column="43" lean-forward="false" selection-start-line="178" selection-start-column="43" selection-end-line="178" selection-end-column="43" />
+            <state relative-caret-position="376">
+              <caret line="277" column="123" lean-forward="false" selection-start-line="277" selection-start-column="123" selection-end-line="277" selection-end-column="123" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -39,10 +40,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="formulas-boardgame.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="1" lean-forward="false" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="RealFormula.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RealFormula.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4114">
+            <state relative-caret-position="1207">
               <caret line="260" column="49" lean-forward="false" selection-start-line="260" selection-start-column="49" selection-end-line="260" selection-end-column="49" />
               <folding />
             </state>
@@ -118,9 +129,9 @@
         <option value="$PROJECT_DIR$/examples/mCRL2/formula-ant.txt" />
         <option value="$PROJECT_DIR$/examples/mCRL2/formulas-ant.txt" />
         <option value="$PROJECT_DIR$/boardGameGenerator.py" />
-        <option value="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" />
         <option value="$PROJECT_DIR$/examples/mCRL2/README.txt" />
         <option value="$PROJECT_DIR$/examples/yahtzee/formulas-yahtzee.txt" />
+        <option value="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" />
         <option value="$PROJECT_DIR$/RESSolver.py" />
       </list>
     </option>
@@ -164,12 +175,6 @@
               <item name="plmuChecker" type="462c0819:PsiDirectoryNode" />
               <item name="examples" type="462c0819:PsiDirectoryNode" />
               <item name="boardgame" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="plmuChecker" type="b2602c69:ProjectViewProjectNode" />
-              <item name="plmuChecker" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-              <item name="diceAB" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="plmuChecker" type="b2602c69:ProjectViewProjectNode" />
@@ -226,7 +231,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="plmuChecker" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ProVerT.py" />
-      <option name="PARAMETERS" value="-e examples\yahtzee\yahtzee.aut examples\yahtzee\formulas-yahtzee.txt" />
+      <option name="PARAMETERS" value="-e examples\boardgame\board5x5.txt examples\boardgame\formulas-boardgame.txt" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
@@ -515,7 +520,14 @@
       <option name="project" value="LOCAL" />
       <updated>1505223351236</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Altered the locality option for RES creation such that it is now a post processing step on top of the original RES creation, maintaining the original order">
+      <created>1505306278301</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1505306278301</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -527,7 +539,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24078947" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24078947" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -562,7 +574,8 @@
     <MESSAGE value="slight print change" />
     <MESSAGE value="altered res file name to store locally created RESs separately" />
     <MESSAGE value="added more examples" />
-    <option name="LAST_COMMIT_MESSAGE" value="added more examples" />
+    <MESSAGE value="Altered the locality option for RES creation such that it is now a post processing step on top of the original RES creation, maintaining the original order" />
+    <option name="LAST_COMMIT_MESSAGE" value="Altered the locality option for RES creation such that it is now a post processing step on top of the original RES creation, maintaining the original order" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -780,14 +793,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/mCRL2/ant_on_grid.aut">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -836,9 +841,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="1" lean-forward="false" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/RealFormula.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4114">
+        <state relative-caret-position="1207">
           <caret line="260" column="49" lean-forward="false" selection-start-line="260" selection-start-column="49" selection-end-line="260" selection-end-column="49" />
           <folding />
         </state>
@@ -846,8 +859,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/RESSolver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="178" column="43" lean-forward="false" selection-start-line="178" selection-start-column="43" selection-end-line="178" selection-end-column="43" />
+        <state relative-caret-position="376">
+          <caret line="277" column="123" lean-forward="false" selection-start-line="277" selection-start-column="123" selection-end-line="277" selection-end-column="123" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

@@ -20,12 +20,14 @@ class RealEquation:
 
 
 class RealEquationSystem:
-    def __init__(self, equations):
+    def __init__(self, equations, initVar):
         self.equations = equations
         # we also index the equations on the variable in the left hand side for easy access
         self.indexedEquations = {}
         for eq in equations:
             self.indexedEquations[eq.lhs] = eq
+
+        self.initVar = initVar
 
     def __str__(self):
         return '\n'.join(str(e) for e in self.equations)
@@ -54,7 +56,7 @@ def toDisConjunctiveForm(res):
         else:
             newEquations += [equation]
 
-    return RealEquationSystem(newEquations)
+    return RealEquationSystem(newEquations, res.initVar)
 
 
 model = None
@@ -154,16 +156,16 @@ def createRES(formula, ts):
             rhs = RHS(state, fixf.subformulas[0])
             equations += [RealEquation(sign, fixf.op.var + str(state), simplify(toNormalForm(simplify(rhs)), True))]
 
-    return RealEquationSystem(equations)
+    return RealEquationSystem(equations, formula.op.var + str(ts.initstate))
 
 
 # remove all equations that are not needed for the solution
-def makeRESlocal(initVar, res):
+def makeRESlocal(res):
     neededEquations = {var: False for var in model.indexedEquations.keys()}
     newEquations = []
-    varQueue = [initVar]
+    varQueue = [res.initVar]
     varQueuePointer = 0
-    neededEquations[initVar] = True
+    neededEquations[res.initVar] = True
     while varQueuePointer < len(varQueue):
         for varFormula in res.indexedEquations[varQueue[varQueuePointer]].rhs.getSubformulas(["VAR"]):
             var = varFormula.op.var
@@ -176,7 +178,7 @@ def makeRESlocal(initVar, res):
         if neededEquations[var]:
             newEquations += res.indexedEquations[var]
 
-    return RealEquationSystem(newEquations)
+    return RealEquationSystem(newEquations, res.initVar)
 
 
 # uses fixpoint approximation to solve equation
@@ -247,7 +249,7 @@ def solveEquation(equation):
     return equation
 
 
-def solveRES(res, local):
+def solveRES(res):
     if printInfo:
         print("##### SOLVING RES #####")
     for i in reversed(range(0, len(res.equations))):
@@ -269,16 +271,15 @@ def solveRES(res, local):
         if printInfo:
             print(str(res) + '\n')
 
-    if local:
-        return float(res.equations[0].rhs.op.val)
-    else:
-        # get the value for the initial state by substituting the resulting value downward
-        for i in range(1, model.initstate + 1):
-            for j in range(i):
-                res.equations[i].rhs = substituteVar(res.equations[i].rhs, res.equations[j].lhs, res.equations[j].rhs)
-            res.equations[i].rhs = simplify(res.equations[i].rhs)
-
-        return float(res.equations[model.initstate].rhs.op.val)
+    i = 0
+    nextEquation = res.equations[i]
+    while nextEquation.lhs != res.initVar:
+        for j in range(i+1, len(res.equations)):
+            res.equations[j].rhs = simplify(substituteVar(res.equations[j].rhs, res.equations[i].lhs, res.equations[i].rhs))
+        i += 1
+        nextEquation = res.equations[i]
+    print(res.equations[i].rhs)
+    return float(res.equations[i].rhs.op.val)
 
 
 def initRESSolver(ts, formula, store, verbose, local):
@@ -292,7 +293,7 @@ def initRESSolver(ts, formula, store, verbose, local):
 
     res = createRES(formula, ts)
     if local:
-        res = makeRESlocal(formula.op.var + str(ts.initstate), res)
+        res = makeRESlocal(res)
 
     if store:
         f = open(os.path.sep.join([os.path.split(model.file)[0],
@@ -301,6 +302,6 @@ def initRESSolver(ts, formula, store, verbose, local):
         f.close()
 
     try:
-        return solveRES(res, local)
+        return solveRES(res)
     except ZeroDivisionError:
         return None

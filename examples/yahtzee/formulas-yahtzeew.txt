@@ -1,0 +1,1 @@
+mu X.(<throw>X || <write(0)>X || <hold>X || <endOfGame>1)

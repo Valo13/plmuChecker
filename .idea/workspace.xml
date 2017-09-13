@@ -2,29 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8429b72-ac6d-4996-bd9a-994207376195" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/boardgame/board1x5.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/boardgame/board2x3.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/boardgame/board5x1.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/boardgame/board5x5.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/boardgame/board7x7.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/boardgame/board9x1.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/README.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/airplane_ticket2-10.aut" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/airplane_ticket2-100.aut" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/airplane_ticket2-2.aut" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/airplane_ticket2-25.aut" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/airplane_ticket2-5.aut" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/airplane_ticket2-50.aut" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/airplane_ticket2-75.aut" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/ant_on_grid3.aut" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/formula-airplane2.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/formulas-ant.txt" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/mCRL2/formula-ant.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/boardGameGenerator.py" afterPath="$PROJECT_DIR$/boardGameGenerator.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/boardgame/board1x9.txt" afterPath="$PROJECT_DIR$/examples/boardgame/board1x9.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" afterPath="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/yahtzee/formulas-yahtzee.txt" afterPath="$PROJECT_DIR$/examples/yahtzee/formulas-yahtzee.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RESSolver.py" afterPath="$PROJECT_DIR$/RESSolver.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -38,24 +17,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RESSolver.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RESSolver.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/RESSolver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="301" column="64" lean-forward="false" selection-start-line="301" selection-start-column="64" selection-end-line="301" selection-end-column="64" />
+            <state relative-caret-position="407">
+              <caret line="178" column="43" lean-forward="false" selection-start-line="178" selection-start-column="43" selection-end-line="178" selection-end-column="43" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="boardGameGenerator.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/boardGameGenerator.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="15" column="10" lean-forward="false" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -70,71 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="formulas-boardgame.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt">
+      <file leaf-file-name="RealFormula.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RealFormula.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ant_on_grid3.aut" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/mCRL2/ant_on_grid3.aut">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/mCRL2/README.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="70" lean-forward="false" selection-start-line="7" selection-start-column="70" selection-end-line="7" selection-end-column="70" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ant_on_grid2.aut" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/mCRL2/ant_on_grid2.aut">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2618">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ant_on_grid.aut" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/mCRL2/ant_on_grid.aut">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="34" lean-forward="false" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="formulas-yahtzee.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/yahtzee/formulas-yahtzee.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="44" lean-forward="false" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="board1x9.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/boardgame/board1x9.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="31" lean-forward="true" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
+            <state relative-caret-position="4114">
+              <caret line="260" column="49" lean-forward="false" selection-start-line="260" selection-start-column="49" selection-end-line="260" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -206,13 +115,13 @@
         <option value="$PROJECT_DIR$/TSReader.py" />
         <option value="$PROJECT_DIR$/RealFormula.py" />
         <option value="$PROJECT_DIR$/ProVerT.py" />
-        <option value="$PROJECT_DIR$/RESSolver.py" />
         <option value="$PROJECT_DIR$/examples/mCRL2/formula-ant.txt" />
         <option value="$PROJECT_DIR$/examples/mCRL2/formulas-ant.txt" />
         <option value="$PROJECT_DIR$/boardGameGenerator.py" />
         <option value="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" />
         <option value="$PROJECT_DIR$/examples/mCRL2/README.txt" />
         <option value="$PROJECT_DIR$/examples/yahtzee/formulas-yahtzee.txt" />
+        <option value="$PROJECT_DIR$/RESSolver.py" />
       </list>
     </option>
   </component>
@@ -317,7 +226,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="plmuChecker" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ProVerT.py" />
-      <option name="PARAMETERS" value="-r10 examples\yahtzee\yahtzee3t.aut examples\yahtzee\formulas-yahtzee.txt" />
+      <option name="PARAMETERS" value="-e examples\yahtzee\yahtzee.aut examples\yahtzee\formulas-yahtzee.txt" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
@@ -599,7 +508,14 @@
       <option name="project" value="LOCAL" />
       <updated>1504689270614</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="added more examples">
+      <created>1505223351236</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1505223351236</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -611,7 +527,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.475" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24078947" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -634,7 +550,6 @@
     <MESSAGE value="changed bes and res file extensions" />
     <MESSAGE value="added yahtzee example" />
     <MESSAGE value="finished parity game creation, also 2 and a half player games without (co)product and truncated (co)sum)" />
-    <MESSAGE value="added more examples" />
     <MESSAGE value="paritygames can now be reduced" />
     <MESSAGE value="fixed parity game printing" />
     <MESSAGE value="fixed parity game reduction for current examples" />
@@ -646,7 +561,8 @@
     <MESSAGE value="in case of multiple runs, individual times are shown too" />
     <MESSAGE value="slight print change" />
     <MESSAGE value="altered res file name to store locally created RESs separately" />
-    <option name="LAST_COMMIT_MESSAGE" value="altered res file name to store locally created RESs separately" />
+    <MESSAGE value="added more examples" />
+    <option name="LAST_COMMIT_MESSAGE" value="added more examples" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -784,14 +700,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RealFormula.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4420">
-          <caret line="260" column="49" lean-forward="false" selection-start-line="260" selection-start-column="49" selection-end-line="260" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/mCRL2/ant_on_grid_formula-ant1_RES_local.res">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-636">
@@ -811,7 +719,7 @@
         <state relative-caret-position="238">
           <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -837,16 +745,6 @@
         <state relative-caret-position="816">
           <caret line="48" column="22" lean-forward="false" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RESSolver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="301" column="64" lean-forward="false" selection-start-line="301" selection-start-column="64" selection-end-line="301" selection-end-column="64" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -932,9 +830,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/boardGameGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="15" column="10" lean-forward="false" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
+        <state relative-caret-position="238">
+          <caret line="14" column="9" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RealFormula.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4114">
+          <caret line="260" column="49" lean-forward="false" selection-start-line="260" selection-start-column="49" selection-end-line="260" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RESSolver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="178" column="43" lean-forward="false" selection-start-line="178" selection-start-column="43" selection-end-line="178" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

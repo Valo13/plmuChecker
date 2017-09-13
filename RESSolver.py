@@ -22,6 +22,10 @@ class RealEquation:
 class RealEquationSystem:
     def __init__(self, equations):
         self.equations = equations
+        # we also index the equations on the variable in the left hand side for easy access
+        self.indexedEquations = {}
+        for eq in equations:
+            self.indexedEquations[eq.lhs] = eq
 
     def __str__(self):
         return '\n'.join(str(e) for e in self.equations)
@@ -153,33 +157,26 @@ def createRES(formula, ts):
     return RealEquationSystem(equations)
 
 
-# creates a RES with only equations that matter for the solution
-def createLocalRES(formula, ts):
-    global model
-    model = ts
-    # alter the formula so that it starts with a fixpoint operator
-    if formula.op.type not in ["LEASTFP", "GREATESTFP"]:
-        formula = FormulaNode([[OperatorNode([OperatorNode(["Q"], "VAR")], "LEASTFP"), formula]])
-    fixpoints = formula.getSubFormulas(["LEASTFP", "GREATESTFP"])
-    equations = []
-    varQueue = [formula.op.var + str(model.initstate)]
+# remove all equations that are not needed for the solution
+def makeRESlocal(initVar, res):
+    neededEquations = {var: False for var in model.indexedEquations.keys()}
+    newEquations = []
+    varQueue = [initVar]
     varQueuePointer = 0
-    while len(varQueue) > varQueuePointer:
-        var = varQueue[varQueuePointer]
-        fixVar = var[0]
-        state = int(var[1:])
-        fixf = [fixf for fixf in fixpoints if fixf.op.var == fixVar][0]
-        sign = "mu" if fixf.op.type == "LEASTFP" else "nu"
-        rhs = RHS(state, fixf.subformulas[0])
-        # add variables to the queue to make equations for
-        for varFormula in rhs.getSubFormulas(["VAR"]):
-            newVar = varFormula.op.var
-            if newVar not in varQueue:
-                varQueue += [newVar]
-        equations += [RealEquation(sign, var, simplify(toNormalForm(simplify(rhs)), True))]
+    neededEquations[initVar] = True
+    while varQueuePointer < len(varQueue):
+        for varFormula in res.indexedEquations[varQueue[varQueuePointer]].rhs.getSubformulas(["VAR"]):
+            var = varFormula.op.var
+            if var not in varQueue:
+                neededEquations[var] = True
+                varQueue += [var]
         varQueuePointer += 1
 
-    return RealEquationSystem(equations)
+    for var in res.indexedEquations:
+        if neededEquations[var]:
+            newEquations += res.indexedEquations[var]
+
+    return RealEquationSystem(newEquations)
 
 
 # uses fixpoint approximation to solve equation
@@ -293,10 +290,9 @@ def initRESSolver(ts, formula, store, verbose, local):
         print("Operators product (*) and coproduct (#) are not supported")
         return None
 
+    res = createRES(formula, ts)
     if local:
-        res = createLocalRES(formula, ts)
-    else:
-        res = createRES(formula, ts)
+        res = makeRESlocal(formula.op.var + str(ts.initstate), res)
 
     if store:
         f = open(os.path.sep.join([os.path.split(model.file)[0],

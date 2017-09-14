@@ -60,7 +60,7 @@ class OperatorNode:
         if type in ["VAL", "LAMBDA"]:
             self.val = float(tokens[0])
         elif type in ["DIAMOND", "BOX"]:
-            self.action = tokens[0]
+            self.action = ''.join(tokens)
         elif type == "VAR":
             self.var = tokens[0]
         elif type in ["LEASTFP", "GREATESTFP"]:
@@ -112,7 +112,8 @@ def grammar():
     LFLAT = Literal("[").suppress()
     RFLAT = Literal("]").suppress()
     DOT = Literal(".").suppress()
-    ACTION = Regex("[a-zA-Z_][a-zA-Z0-9_\(\)]*")
+    ACTIONPARAMETERS = Regex("\([0-9]*(, [0-9]*)*\)")
+    ACTION = Regex("[a-zA-Z_][a-zA-Z0-9_]*") + Optional(ACTIONPARAMETERS)
     MU = Keyword("mu").suppress()
     NU = Keyword("nu").suppress()
     PROB = Regex("1|0(\.[0-9]*)?")

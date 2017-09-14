@@ -1,1 +1,1 @@
-mu X.(<throw>X || <write(0)>X || <hold>X || <endOfGame>1)
+mu X.(<throw>X || <write(1, 0)>X || <write(2, 0)>X || <write(3, 0)>X || <hold>X || <endOfGame>1)

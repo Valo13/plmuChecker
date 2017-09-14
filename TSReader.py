@@ -106,8 +106,8 @@ def readTS(filename):
             if t.startswith('('):
                 tData = t[t.find('(') + 1:t.rfind(')')].split(',')
                 beginState = int(tData[0])
-                action = tData[1].strip()[1:-1]
-                distData = extractDist(tData[2].strip().split(' '))
+                action = ','.join(tData[1:-1]).strip()[1:-1]
+                distData = extractDist(tData[-1].strip().split(' '))
                 # extract label modeled as transition
                 if action.startswith("label(") and len(distData) == 1 and beginState in distData:
                     value = float(action[action.find('(') + 1:action.rfind(')')])

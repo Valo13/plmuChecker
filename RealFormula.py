@@ -176,11 +176,12 @@ def isWorseOperand(operand1, operand2, opType):
             if var in scalar1 and scalar1[var] > scalar2[var]:
                 return False
     else:
-        if val2 > val1 or val1 < 0:
-            return False
+        extra = 0.0
         for var in scalar2:
             if var not in scalar1:
-                return False
+                extra += scalar2[var]
+        if extra + val2 > val1:
+            return False
         for var in scalar1:
             if var in scalar2 and scalar2[var] > scalar1[var]:
                 return False
@@ -207,7 +208,7 @@ def simplify(formula, afterNormalForm=False):
         else:
             newOperands = formula.operands
 
-        # apply operator to values
+        # get all operands
         values = [operand.op.val for operand in newOperands if operand.op.type == "VAL"]
         nonValues = [operand for operand in newOperands if operand.op.type != "VAL"]
 

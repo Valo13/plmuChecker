@@ -1,4 +1,5 @@
 import copy
+import time
 
 
 MAXITER = 1000
@@ -73,4 +74,7 @@ def checkNaiveInit(ts, formula, verbose):
     model = ts
     printInfo = verbose
     variables = {var: [] for var in formula.vars}
-    return checkNaive(formula, model.initstate)
+    start = time.clock()
+    value = checkNaive(formula, model.initstate)
+    end = time.clock()
+    return value, end - start

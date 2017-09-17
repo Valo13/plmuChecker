@@ -1,5 +1,4 @@
 import argparse
-import time
 from TSReader import *
 from FormulaReader import *
 import plmuChecker
@@ -23,7 +22,6 @@ def main():
     model = readTS(args.model)
     formulas = readFormula(args.formulas)
     # initiate clock
-    elapsedTime = time.clock()
     numberOfRuns = args.runs[0]
 
     for formula in formulas:
@@ -37,34 +35,35 @@ def main():
                     print("Creating parity game for formula " + str(formula))
                     ParityGameCreator.initParityGameCreator(model, formula, args.equations, args.store, args.verbose, isOnlyProbabilistic)
                 else:
-                    runningTimes = [0 for i in range(numberOfRuns)]
-                    result = None
+                    creationTimes = []
+                    solveTimes = []
+                    value = None
                     for i in range(numberOfRuns):
                         # do the model checking
                         print("Computing result for formula " + str(formula))
                         if args.equations:
-                            if isOnlyProbabilistic:
-                                result = RESSolver.initRESSolver(model, formula, args.store, args.verbose, args.local)
-                            else:
-                                result = BESSolver.initBESSolver(model, formula, args.store, args.verbose)
+                            result = RESSolver.initRESSolver(model, formula, args.store, args.verbose, args.local)
+                            value = result[0]
+                            creationTimes += [result[1]]
+                            solveTimes += [result[2]]
                         else:
                             result = plmuChecker.checkNaiveInit(model, formula, args.verbose)
+                            value = result[0]
+                            solveTimes += [result[1]]
 
                         if result is None:
                             print("Could not compute result for formula " + str(formula) + '\n')
                             break
 
                         if hasLabelOperator:
-                            result = result * model.labelFactor
+                            value = value * model.labelFactor
 
-                        newClock = time.clock()
-                        runningTimes[i] = newClock - elapsedTime
-                        elapsedTime = newClock
-
-                    print("The result of " + str(formula) + " is: " + str(result))
-                    print("Running time: " + str(sum(runningTimes)/numberOfRuns) + ' seconds')
+                    print("The result of " + str(formula) + " is: " + str(value))
+                    if args.equations:
+                        print("Creation time: " + str(sum(creationTimes) / numberOfRuns) + ' seconds')
+                    print("Running time: " + str(sum(solveTimes)/numberOfRuns) + ' seconds')
                     if numberOfRuns > 1:
-                        print("Individual timings: " + str(runningTimes))
+                        print("Individual timings: " + str(solveTimes))
                     print('\n')
 
 

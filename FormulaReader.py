@@ -112,7 +112,7 @@ def grammar():
     LFLAT = Literal("[").suppress()
     RFLAT = Literal("]").suppress()
     DOT = Literal(".").suppress()
-    ACTIONPARAMETERS = Regex("\([0-9]*(, [0-9]*)*\)")
+    ACTIONPARAMETERS = Regex("\([0-9a-zA-Z]*(, [0-9a-zA-Z]*)*\)")
     ACTION = Regex("[a-zA-Z_][a-zA-Z0-9_]*") + Optional(ACTIONPARAMETERS)
     MU = Keyword("mu").suppress()
     NU = Keyword("nu").suppress()

@@ -1,4 +1,5 @@
 import os
+import time
 from RealFormula import *
 from FormulaReader import *
 
@@ -290,9 +291,11 @@ def initRESSolver(ts, formula, store, verbose, local):
         print("Operators product (*) and coproduct (#) are not supported")
         return None
 
+    createStart = time.clock()
     res = createRES(formula, ts)
     if local:
         res = makeRESlocal(res)
+    createEnd = time.clock()
 
     if store:
         f = open(os.path.sep.join([os.path.split(model.file)[0],
@@ -300,7 +303,13 @@ def initRESSolver(ts, formula, store, verbose, local):
         f.write(str(res))
         f.close()
 
+    print("RES created")
+
+    solveStart = time.clock()
     try:
-        return solveRES(res)
+        value = solveRES(res)
     except ZeroDivisionError:
-        return None
+        value = None
+    solveEnd = time.clock()
+
+    return value, createEnd - createStart, solveEnd - solveStart

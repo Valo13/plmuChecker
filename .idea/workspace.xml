@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8429b72-ac6d-4996-bd9a-994207376195" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/airplane_ticket2-20.aut" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/mCRL2/airplane_ticket2.aut" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/plmuChecker.iml" afterPath="$PROJECT_DIR$/.idea/plmuChecker.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RESSolver.py" afterPath="$PROJECT_DIR$/RESSolver.py" />
     </list>
@@ -24,8 +20,8 @@
       <file leaf-file-name="RESSolver.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/RESSolver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="168" column="65" lean-forward="true" selection-start-line="168" selection-start-column="65" selection-end-line="168" selection-end-column="65" />
+            <state relative-caret-position="382">
+              <caret line="197" column="0" lean-forward="false" selection-start-line="197" selection-start-column="0" selection-end-line="197" selection-end-column="0" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -224,9 +220,9 @@
         <option value="$PROJECT_DIR$/FormulaReader.py" />
         <option value="$PROJECT_DIR$/RealFormula.py" />
         <option value="$PROJECT_DIR$/examples/mCRL2/formulas-ant.txt" />
-        <option value="$PROJECT_DIR$/RESSolver.py" />
         <option value="$PROJECT_DIR$/examples/threshold/formulas-threshold.txt" />
         <option value="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" />
+        <option value="$PROJECT_DIR$/RESSolver.py" />
       </list>
     </option>
   </component>
@@ -754,7 +750,14 @@
       <option name="project" value="LOCAL" />
       <updated>1505393099019</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="reimplemented local RES creation as something instead of non-local RES creation">
+      <created>1505735269580</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1505735269580</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -806,7 +809,8 @@
     <MESSAGE value="fixed makeRESlocal and added test example" />
     <MESSAGE value="added and altered some yahtzee examples" />
     <MESSAGE value="added proper parse support for (multiple) action parameters" />
-    <option name="LAST_COMMIT_MESSAGE" value="added proper parse support for (multiple) action parameters" />
+    <MESSAGE value="reimplemented local RES creation as something instead of non-local RES creation" />
+    <option name="LAST_COMMIT_MESSAGE" value="reimplemented local RES creation as something instead of non-local RES creation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1144,8 +1148,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/RESSolver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="168" column="65" lean-forward="true" selection-start-line="168" selection-start-column="65" selection-end-line="168" selection-end-column="65" />
+        <state relative-caret-position="382">
+          <caret line="197" column="0" lean-forward="false" selection-start-line="197" selection-start-column="0" selection-end-line="197" selection-end-column="0" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

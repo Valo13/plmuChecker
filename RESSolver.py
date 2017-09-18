@@ -187,14 +187,14 @@ def createLocalRES(formula, ts, shouldSort):
 
     res = RealEquationSystem(equations, initVar)
     createEnd = time.clock()
-    print(res)
+
     # sort so that we can compare the solving time it to non-local version
     if shouldSort:
         fixpointVars = [fix.op.var for fix in fixpoints]
         toSort = [(var[0], var[1:]) for var in res.indexedEquations.keys()]
         toSort.sort(key=lambda x: (fixpointVars.index(x[0]), int(x[1])))
         res = RealEquationSystem([res.indexedEquations[v + s] for (v, s) in toSort], res.initVar)
-    print(res)
+
     return res, createEnd
 
 

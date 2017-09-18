@@ -160,26 +160,42 @@ def createRES(formula, ts):
     return RealEquationSystem(equations, formula.op.var + str(ts.initstate))
 
 
-# remove all equations that are not needed for the solution
-def makeRESlocal(res):
-    neededEquations = {var: False for var in res.indexedEquations.keys()}
-    newEquations = []
-    varQueue = [res.initVar]
+def createLocalRES(formula, ts, shouldSort):
+    global model
+    model = ts
+    # alter the formula so that it starts with a fixpoint operator
+    if formula.op.type not in ["LEASTFP", "GREATESTFP"]:
+        formula = FormulaNode([[OperatorNode([OperatorNode(["Q"], "VAR")], "LEASTFP"), formula]])
+    fixpoints = formula.getSubFormulas(["LEASTFP", "GREATESTFP"])
+    indexedFixpoints = {fix.op.var: fix for fix in fixpoints}
+    signs = {fix.op.var: ('mu' if fix.op.type == "LEASTFP" else 'nu') for fix in fixpoints}
+    equations = []
+    initVar = fixpoints[0].op.var + str(ts.initstate)
+    varQueue = [initVar]
     varQueuePointer = 0
-    neededEquations[res.initVar] = True
     while varQueuePointer < len(varQueue):
-        for varFormula in res.indexedEquations[varQueue[varQueuePointer]].rhs.getSubFormulas(["VAR"]):
-            var = varFormula.op.var
-            if var not in varQueue:
-                neededEquations[var] = True
-                varQueue += [var]
+        var = varQueue[varQueuePointer]
+        rhs = RHS(int(var[1:]), indexedFixpoints[var[0]].subformulas[0])
+        eq = RealEquation(signs[var[0]], var, simplify(toNormalForm(simplify(rhs))))
+        equations += [eq]
+        # add all variables that eq depends on to the queue (if not there already)
+        for varFormula in eq.rhs.getSubFormulas(["VAR"]):
+            newVar = varFormula.op.var
+            if newVar not in varQueue:
+                varQueue += [newVar]
         varQueuePointer += 1
 
-    for eq in res.equations:
-        if neededEquations[eq.lhs]:
-            newEquations += [eq]
-
-    return RealEquationSystem(newEquations, res.initVar)
+    res = RealEquationSystem(equations, initVar)
+    createEnd = time.clock()
+    print(res)
+    # sort so that we can compare the solving time it to non-local version
+    if shouldSort:
+        fixpointVars = [fix.op.var for fix in fixpoints]
+        toSort = [(var[0], var[1:]) for var in res.indexedEquations.keys()]
+        toSort.sort(key=lambda x: (fixpointVars.index(x[0]), int(x[1])))
+        res = RealEquationSystem([res.indexedEquations[v + s] for (v, s) in toSort], res.initVar)
+    print(res)
+    return res, createEnd
 
 
 # uses fixpoint approximation to solve equation
@@ -289,13 +305,16 @@ def initRESSolver(ts, formula, store, verbose, local):
     # for now, we do not allow formulas with the operators PRODUCT and COPRODUCT
     if formula.getSubFormulas(["PRODUCT", "COPRODUCT"]):
         print("Operators product (*) and coproduct (#) are not supported")
-        return None
+        return None, 0, 0
 
     createStart = time.clock()
-    res = createRES(formula, ts)
     if local:
-        res = makeRESlocal(res)
-    createEnd = time.clock()
+        result = createLocalRES(formula, ts, True)  # True is placeholder until efficient order solving is implemented
+        res = result[0]
+        createEnd = result[1]
+    else:
+        res = createRES(formula, ts)
+        createEnd = time.clock()
 
     if store:
         f = open(os.path.sep.join([os.path.split(model.file)[0],

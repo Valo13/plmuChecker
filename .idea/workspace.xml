@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e8429b72-ac6d-4996-bd9a-994207376195" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProVerT.py" afterPath="$PROJECT_DIR$/ProVerT.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RESSolver.py" afterPath="$PROJECT_DIR$/RESSolver.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,8 +20,8 @@
       <file leaf-file-name="RESSolver.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/RESSolver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6443">
-              <caret line="379" column="0" lean-forward="false" selection-start-line="379" selection-start-column="0" selection-end-line="379" selection-end-column="0" />
+            <state relative-caret-position="183">
+              <caret line="188" column="19" lean-forward="true" selection-start-line="188" selection-start-column="19" selection-end-line="188" selection-end-column="19" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -43,8 +42,8 @@
       <file leaf-file-name="RealFormula.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RealFormula.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="144" column="9" lean-forward="true" selection-start-line="144" selection-start-column="9" selection-end-line="144" selection-end-column="9" />
+            <state relative-caret-position="357">
+              <caret line="180" column="27" lean-forward="false" selection-start-line="180" selection-start-column="27" selection-end-line="180" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -75,23 +74,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="406">
               <caret line="75" column="12" lean-forward="false" selection-start-line="75" selection-start-column="12" selection-end-line="75" selection-end-column="12" />
-              <folding>
-                <marker date="1505726533550" expanded="true" signature="3569:5748" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="5751:5896" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="5918:6781" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="6229:6639" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="6276:6458" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="6801:7410" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="6811:6888" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="6921:7023" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="7187:7254" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="7285:7346" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="7439:7932" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="7449:7531" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="7551:7622" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="7677:7911" ph="..." />
-                <marker date="1505726533550" expanded="true" signature="7756:7911" ph="..." />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -196,14 +179,14 @@
         <option value="$PROJECT_DIR$/examples/threshold/formulas-threshold.txt" />
         <option value="$PROJECT_DIR$/ProVerT.py" />
         <option value="$PROJECT_DIR$/RealFormula.py" />
-        <option value="$PROJECT_DIR$/RESSolver.py" />
         <option value="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" />
+        <option value="$PROJECT_DIR$/RESSolver.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-184" />
-    <option name="y" value="-12" />
+    <option name="x" value="-238" />
+    <option name="y" value="-21" />
     <option name="width" value="1022" />
     <option name="height" value="726" />
   </component>
@@ -402,7 +385,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="plmuChecker" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ProVerT.py" />
-      <option name="PARAMETERS" value="-esl examples\yahtzee\yahtzeew.aut examples\yahtzee\formulas-yahtzeew.txt" />
+      <option name="PARAMETERS" value="-els examples\yahtzee\yahtzeew.aut examples\yahtzee\formulas-yahtzeew.txt" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
@@ -739,13 +722,21 @@
       <option name="project" value="LOCAL" />
       <updated>1505735373753</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="implemented use of dependency graph">
+      <created>1505819633213</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1505819633213</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3285528" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -792,7 +783,8 @@
     <MESSAGE value="added proper parse support for (multiple) action parameters" />
     <MESSAGE value="reimplemented local RES creation as something instead of non-local RES creation" />
     <MESSAGE value="removed print statements" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed print statements" />
+    <MESSAGE value="implemented use of dependency graph" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented use of dependency graph" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -969,42 +961,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FormulaReader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="75" column="12" lean-forward="false" selection-start-line="75" selection-start-column="12" selection-end-line="75" selection-end-column="12" />
-          <folding>
-            <marker date="1505726533550" expanded="true" signature="3569:5748" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="5751:5896" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="5918:6781" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="6229:6639" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="6276:6458" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="6801:7410" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="6811:6888" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="6921:7023" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="7187:7254" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="7285:7346" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="7439:7932" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="7449:7531" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="7551:7622" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="7677:7911" ph="..." />
-            <marker date="1505726533550" expanded="true" signature="7756:7911" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/boardgame/formulas-boardgame2st.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="75" lean-forward="true" selection-start-line="0" selection-start-column="75" selection-end-line="0" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/yahtzee/formulas-yahtzeew.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="96" lean-forward="false" selection-start-line="0" selection-start-column="96" selection-end-line="0" selection-end-column="96" />
           <folding />
         </state>
       </provider>
@@ -1065,11 +1025,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RealFormula.py">
+    <entry file="file://$PROJECT_DIR$/ProVerT.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="144" column="9" lean-forward="true" selection-start-line="144" selection-start-column="9" selection-end-line="144" selection-end-column="9" />
-          <folding />
+        <state relative-caret-position="119">
+          <caret line="13" column="98" lean-forward="false" selection-start-line="13" selection-start-column="98" selection-end-line="13" selection-end-column="98" />
+          <folding>
+            <marker date="1505744786469" expanded="true" signature="3661:3700" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1081,20 +1043,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ProVerT.py">
+    <entry file="file://$PROJECT_DIR$/examples/yahtzee/formulas-yahtzeew.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="13" column="98" lean-forward="false" selection-start-line="13" selection-start-column="98" selection-end-line="13" selection-end-column="98" />
-          <folding>
-            <marker date="1505744786469" expanded="true" signature="3661:3700" ph="..." />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="96" lean-forward="false" selection-start-line="0" selection-start-column="96" selection-end-line="0" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FormulaReader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="75" column="12" lean-forward="false" selection-start-line="75" selection-start-column="12" selection-end-line="75" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RealFormula.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="180" column="27" lean-forward="false" selection-start-line="180" selection-start-column="27" selection-end-line="180" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/RESSolver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6443">
-          <caret line="379" column="0" lean-forward="false" selection-start-line="379" selection-start-column="0" selection-end-line="379" selection-end-column="0" />
+        <state relative-caret-position="183">
+          <caret line="188" column="19" lean-forward="true" selection-start-line="188" selection-start-column="19" selection-end-line="188" selection-end-column="19" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

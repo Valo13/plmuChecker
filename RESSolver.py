@@ -200,7 +200,7 @@ def createLocalRES(formula, ts, shouldSort, makeDepGraph):
     while varQueuePointer < len(varQueue):
         var = varQueue[varQueuePointer]
         rhs = RHS(int(var[1:]), indexedFixpoints[var[0]].subformulas[0])
-        eq = RealEquation(signs[var[0]], var, simplify(toNormalForm(simplify(rhs))))
+        eq = RealEquation(signs[var[0]], var, simplify(toNormalForm(simplify(rhs)), True))
         equations += [eq]
 
         if makeDepGraph:

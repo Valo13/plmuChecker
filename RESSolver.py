@@ -143,7 +143,12 @@ def RHS(state, formula):
             return RealFormulaNode(RealOperatorNode(op), sums)
 
 
-def createRES(formula, ts):
+# the dependence graph
+depChildren = {}  # X:list means X depends on all variables in list
+depParents = {}  # X:list means all variables in list depend on X
+
+
+def createRES(formula, ts, makeDepGraph):
     global model
     model = ts
     # alter the formula so that it starts with a fixpoint operator
@@ -154,15 +159,34 @@ def createRES(formula, ts):
     for fixf in fixpoints:
         sign = "mu" if fixf.op.type == "LEASTFP" else "nu"
         for state in range(0, model.numstates):
+            var = fixf.op.var + str(state)
             rhs = RHS(state, fixf.subformulas[0])
-            equations += [RealEquation(sign, fixf.op.var + str(state), simplify(toNormalForm(simplify(rhs)), True))]
+            equation = RealEquation(sign, var, simplify(toNormalForm(simplify(rhs)), True))
+            equations += [equation]
+
+            if makeDepGraph:
+                depChildren[var] = set()
+                if var not in depParents:
+                    depParents[var] = set()
+
+                # create edges in the dependency graph
+                for varFormula in equation.rhs.getSubFormulas(["VAR"]):
+                    depVar = varFormula.op.var
+
+                    depChildren[var].add(depVar)
+                    if depVar not in depParents:
+                        depParents[depVar] = {var}
+                    else:
+                        depParents[depVar].add(var)
 
     return RealEquationSystem(equations, formula.op.var + str(ts.initstate))
 
 
-def createLocalRES(formula, ts, shouldSort):
-    global model
+def createLocalRES(formula, ts, shouldSort, makeDepGraph):
+    global model, depChildren, depParents
     model = ts
+    depChildren = {}
+    depParents = {}
     # alter the formula so that it starts with a fixpoint operator
     if formula.op.type not in ["LEASTFP", "GREATESTFP"]:
         formula = FormulaNode([[OperatorNode([OperatorNode(["Q"], "VAR")], "LEASTFP"), formula]])
@@ -178,11 +202,26 @@ def createLocalRES(formula, ts, shouldSort):
         rhs = RHS(int(var[1:]), indexedFixpoints[var[0]].subformulas[0])
         eq = RealEquation(signs[var[0]], var, simplify(toNormalForm(simplify(rhs))))
         equations += [eq]
+
+        if makeDepGraph:
+            depChildren[var] = set()
+            if var not in depParents:
+                depParents[var] = set()
+
         # add all variables that eq depends on to the queue (if not there already)
         for varFormula in eq.rhs.getSubFormulas(["VAR"]):
             newVar = varFormula.op.var
             if newVar not in varQueue:
                 varQueue += [newVar]
+
+            if makeDepGraph:
+                # create edges in the dependency graph
+                depChildren[var].add(newVar)
+                if newVar not in depParents:
+                    depParents[newVar] = {var}
+                else:
+                    depParents[newVar].add(var)
+
         varQueuePointer += 1
 
     res = RealEquationSystem(equations, initVar)
@@ -266,7 +305,21 @@ def solveEquation(equation):
     return equation
 
 
-def solveRES(res):
+# for parent 'parent' remove children 'children' from the dependency graph
+def depRemove(parent, children):
+    depChildren[parent].difference(children)
+    for child in children:
+        depParents[child].remove(parent)
+
+
+# for parent 'parent' add children 'children' to the dependency graph
+def depAdd(parent, children):
+    depChildren[parent].update(children)
+    for child in children:
+        depParents[child].add(parent)
+
+
+def solveRES(res, useDepGraph):
     if printInfo:
         print("##### SOLVING RES #####")
     for i in reversed(range(0, len(res.equations))):
@@ -279,12 +332,23 @@ def solveRES(res):
             if printInfo:
                 print("##### solving...")
             equation.rhs = simplify(solveEquation(equation).rhs, True)
+            if useDepGraph:
+                depRemove(var, {var})
 
         # substitute above
         if printInfo:
             print("##### substituting...")
-        for j in reversed(range(0, i)):
-            res.equations[j].rhs = simplify(toNormalForm(simplify(substituteVar(res.equations[j].rhs, var, equation.rhs))), True)
+        if useDepGraph:
+            for parentVar in copy.copy(depParents[var]):
+                eq = res.indexedEquations[parentVar]
+                eq.rhs = simplify(toNormalForm(simplify(substituteVar(eq.rhs, var, equation.rhs))), True)
+                depRemove(parentVar, {var})
+                depAdd(parentVar, depChildren[var])
+        else:
+            for j in reversed(range(0, i)):
+                eq = res.equations[j]
+                eq.rhs = simplify(toNormalForm(simplify(substituteVar(eq.rhs, var, equation.rhs))), True)
+
         if printInfo:
             print(str(res) + '\n')
 
@@ -298,7 +362,7 @@ def solveRES(res):
     return float(res.equations[i].rhs.op.val)
 
 
-def initRESSolver(ts, formula, store, verbose, local):
+def initRESSolver(ts, formula, store, verbose, local, depGraph):
     global printInfo
     printInfo = verbose
 
@@ -309,11 +373,11 @@ def initRESSolver(ts, formula, store, verbose, local):
 
     createStart = time.clock()
     if local:
-        result = createLocalRES(formula, ts, True)  # True is placeholder until efficient order solving is implemented
+        result = createLocalRES(formula, ts, True, depGraph)  # True is placeholder until efficient order solving is implemented
         res = result[0]
         createEnd = result[1]
     else:
-        res = createRES(formula, ts)
+        res = createRES(formula, ts, depGraph)
         createEnd = time.clock()
 
     if store:
@@ -326,7 +390,7 @@ def initRESSolver(ts, formula, store, verbose, local):
 
     solveStart = time.clock()
     try:
-        value = solveRES(res)
+        value = solveRES(res, depGraph)
     except ZeroDivisionError:
         value = None
     solveEnd = time.clock()

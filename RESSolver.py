@@ -12,6 +12,7 @@ class RealEquation:
         self.sign = sign
         self.lhs = lhs
         self.rhs = rhs
+        self.processed = False
 
     def __str__(self):
         return self.sign + ' ' + self.lhs + ' = ' + str(self.rhs)
@@ -341,14 +342,16 @@ def solveRES(res, useDepGraph):
         if useDepGraph:
             for parentVar in copy.copy(depParents[var]):
                 eq = res.indexedEquations[parentVar]
-                eq.rhs = simplify(toNormalForm(simplify(substituteVar(eq.rhs, var, equation.rhs))), True)
-                depRemove(parentVar, {var})
-                depAdd(parentVar, depChildren[var])
+                if not eq.processed:
+                    eq.rhs = simplify(toNormalForm(simplify(substituteVar(eq.rhs, var, equation.rhs))), True)
+                    depRemove(parentVar, {var})
+                    depAdd(parentVar, depChildren[var])
         else:
             for j in reversed(range(0, i)):
                 eq = res.equations[j]
                 eq.rhs = simplify(toNormalForm(simplify(substituteVar(eq.rhs, var, equation.rhs))), True)
 
+        equation.processed = True
         if printInfo:
             print(str(res) + '\n')
 

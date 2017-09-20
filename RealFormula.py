@@ -167,11 +167,12 @@ def isWorseOperand(operand1, operand2, opType):
     val1, scalar1 = operand1.getVariableScalar()
     val2, scalar2 = operand2.getVariableScalar()
     if opType == "MAXIMUM":
-        if val1 > val2:
-            return False
+        extra = 0.0
         for var in scalar1:
             if var not in scalar2:
-                return False
+                extra += scalar2[var]
+        if extra + val1 > val2:
+            return False
         for var in scalar2:
             if var in scalar1 and scalar1[var] > scalar2[var]:
                 return False

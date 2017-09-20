@@ -376,7 +376,7 @@ def initRESSolver(ts, formula, store, verbose, local, depGraph):
 
     createStart = time.clock()
     if local:
-        result = createLocalRES(formula, ts, True, depGraph)  # True is placeholder until efficient order solving is implemented
+        result = createLocalRES(formula, ts, True, depGraph)  # True is placeholder until efficient order solving
         res = result[0]
         createEnd = result[1]
     else:

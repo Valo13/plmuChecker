@@ -170,7 +170,7 @@ def isWorseOperand(operand1, operand2, opType):
         extra = 0.0
         for var in scalar1:
             if var not in scalar2:
-                extra += scalar2[var]
+                extra += scalar1[var]
         if extra + val1 > val2:
             return False
         for var in scalar2:

@@ -1,0 +1,3 @@
+<tau><c_aF>mu X.(<tau>X || <success_frame><c_aF>X || <c_success_file>1)
+mu X.(<tau>X || <success_frame>X || <c_aF>X || <c_success_file>1)
+mu X.nu Y.(<fail_transmission>X || <tau>Y || <success_frame>Y || <c_aF>Y || <c_success_file>1)

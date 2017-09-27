@@ -12,6 +12,7 @@ def main():
     parser.add_argument("-e", "--equations", help="solve via RES", action="store_true")
     parser.add_argument("-l", "--local", help="create local RES", action="store_true")
     parser.add_argument("-d", "--depGraph", help="create and use dependency graph for substitution", action="store_true")
+    parser.add_argument("-o", "--order", help="solve a RES in an efficient order, includes -l and -d", action="store_true")
     parser.add_argument("-p", "--paritygame", help="create a paritygame (if also -e, create via RES)", action="store_true")
     parser.add_argument("-s", "--store", help="store intermediate results such as a BES", action="store_true")
     parser.add_argument("-v", "--verbose", help="display info", action="store_true")
@@ -43,7 +44,7 @@ def main():
                         # do the model checking
                         print("Computing result for formula " + str(formula))
                         if args.equations:
-                            result = RESSolver.initRESSolver(model, formula, args.store, args.verbose, args.local, args.depGraph)
+                            result = RESSolver.initRESSolver(model, formula, args.store, args.verbose, args.local, args.depGraph, args.order)
                             value = result[0]
                             creationTimes += [result[1]]
                             solveTimes += [result[2]]

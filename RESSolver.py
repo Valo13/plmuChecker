@@ -308,7 +308,7 @@ def solveEquation(equation):
 
 # for parent 'parent' remove children 'children' from the dependency graph
 def depRemove(parent, children):
-    depChildren[parent].difference(children)
+    depChildren[parent].difference_update(children)
     for child in children:
         depParents[child].remove(parent)
 
@@ -365,7 +365,37 @@ def solveRES(res, useDepGraph):
     return float(res.equations[i].rhs.op.val)
 
 
-def initRESSolver(ts, formula, store, verbose, local, depGraph):
+RES = None
+state = {}  # 0: not yet found, 1: visited but not solved, 2: solved
+solutions = {}
+
+
+# solve the RES with a more efficient order by recursively following the dependency graph
+def solveRESDep(var):
+    if state[var] == 2:
+        return solutions[var]
+    global state, solutions
+    state[var] = 1
+    equation = RES.indexedEquations[var]
+    for childVar in copy.copy(depChildren[var]):
+        if not state[childVar] == 1:
+            solution = solveRESDep(childVar)
+            equation.rhs = simplify(toNormalForm(simplify(substituteVar(equation.rhs, childVar, solution))), True)
+            depRemove(var, [childVar])
+            depAdd(var, depChildren[childVar])
+    if equation.rhs.containsVar(var):
+        equation.rhs = simplify(solveEquation(equation).rhs, True)
+        depRemove(var, [var])
+    if len(depChildren[var]) == 0:
+        solutions[var] = equation.rhs
+        state[var] = 2
+    else:
+        state[var] = 0
+    RES.indexedEquations[var] = equation
+    return equation.rhs
+
+
+def initRESSolver(ts, formula, store, verbose, local, depGraph, order):
     global printInfo
     printInfo = verbose
 
@@ -375,8 +405,8 @@ def initRESSolver(ts, formula, store, verbose, local, depGraph):
         return None, 0, 0
 
     createStart = time.clock()
-    if local:
-        result = createLocalRES(formula, ts, True, depGraph)  # True is placeholder until efficient order solving
+    if local or order:
+        result = createLocalRES(formula, ts, not order, depGraph or order)
         res = result[0]
         createEnd = result[1]
     else:
@@ -393,7 +423,14 @@ def initRESSolver(ts, formula, store, verbose, local, depGraph):
 
     solveStart = time.clock()
     try:
-        value = solveRES(res, depGraph)
+        if order:
+            global RES, state, solutions
+            RES = res
+            state = {var: 0 for var in res.indexedEquations.keys()}
+            solutions = {var: None for var in res.indexedEquations.keys()}
+            value = solveRESDep(res.initVar)
+        else:
+            value = solveRES(res, depGraph)
     except ZeroDivisionError:
         value = None
     solveEnd = time.clock()

@@ -184,17 +184,31 @@ def createRES(formula, ts, makeDepGraph):
     return RealEquationSystem(equations, formula.op.var + str(ts.initstate))
 
 
-def createLocalRES(formula, ts, shouldSort, makeDepGraph):
+def createLocalRES(formula, ts, SCC, makeDepGraph):
     global model, depChildren, depParents
     model = ts
     depChildren = {}
     depParents = {}
+
     # alter the formula so that it starts with a fixpoint operator
     if formula.op.type not in ["LEASTFP", "GREATESTFP"]:
         formula = FormulaNode([[OperatorNode([OperatorNode(["Q"], "VAR")], "LEASTFP"), formula]])
     fixpoints = formula.getSubFormulas(["LEASTFP", "GREATESTFP"])
     indexedFixpoints = {fix.op.var: fix for fix in fixpoints}
     signs = {fix.op.var: ('mu' if fix.op.type == "LEASTFP" else 'nu') for fix in fixpoints}
+
+    # initialize blocks
+    varRank = {}
+    blockRank = 0
+    if SCC:
+        blockSign = signs[fixpoints[0].op.var]
+        for fixf in fixpoints:
+            if signs[fixf.op.var] != blockSign:
+                blockRank += 1
+                blockSign = signs[fixf.op.var]
+            varRank[fixf.op.var] = blockRank
+    blocks = [[] for rank in range(blockRank + 1)]
+
     equations = []
     initVar = fixpoints[0].op.var + str(ts.initstate)
     varQueue = [initVar]
@@ -204,6 +218,9 @@ def createLocalRES(formula, ts, shouldSort, makeDepGraph):
         rhs = RHS(int(var[1:]), indexedFixpoints[var[0]].subformulas[0])
         eq = RealEquation(signs[var[0]], var, simplify(toNormalForm(simplify(rhs)), True))
         equations += [eq]
+
+        if SCC:
+            blocks[varRank[var[0]]] += [eq]
 
         if makeDepGraph:
             depChildren[var] = set()
@@ -230,11 +247,13 @@ def createLocalRES(formula, ts, shouldSort, makeDepGraph):
     createEnd = time.clock()
 
     # sort so that we can compare the solving time it to non-local version
-    if shouldSort:
+    if not SCC:
         fixpointVars = [fix.op.var for fix in fixpoints]
         toSort = [(var[0], var[1:]) for var in res.indexedEquations.keys()]
         toSort.sort(key=lambda x: (fixpointVars.index(x[0]), int(x[1])))
         res = RealEquationSystem([res.indexedEquations[v + s] for (v, s) in toSort], res.initVar)
+    else:
+        res.blocks = blocks
 
     return res, createEnd
 
@@ -366,37 +385,12 @@ def solveRES(res, useDepGraph):
     return float(res.equations[i].rhs.op.val)
 
 
-RES = None
-state = {}  # 0: not yet found, 1: visited but not solved, 2: solved
-solutions = {}
+# solve the RES with a more efficient order by using SSC's
+def solveRESSCC(res, formula):
+    pass
 
 
-# solve the RES with a more efficient order by recursively following the dependency graph
-def solveRESDep(var):
-    global state, solutions
-    if state[var] == 2:
-        return solutions[var]
-    state[var] = 1
-    equation = RES.indexedEquations[var]
-    for childVar in copy.copy(depChildren[var]):
-        if not state[childVar] == 1:
-            solution = solveRESDep(childVar)
-            equation.rhs = simplify(toNormalForm(simplify(substituteVar(equation.rhs, childVar, solution))), True)
-            depRemove(var, [childVar])
-            depAdd(var, depChildren[childVar])
-    if equation.rhs.containsVar(var):
-        equation.rhs = simplify(solveEquation(equation).rhs, True)
-        depRemove(var, [var])
-    if len(depChildren[var]) == 0:
-        solutions[var] = equation.rhs
-        state[var] = 2
-    else:
-        state[var] = 0
-    RES.indexedEquations[var] = equation
-    return equation.rhs
-
-
-def initRESSolver(ts, formula, store, verbose, local, depGraph, order):
+def initRESSolver(ts, formula, store, verbose, local, depGraph, SCC):
     global printInfo
     printInfo = verbose
 
@@ -410,8 +404,8 @@ def initRESSolver(ts, formula, store, verbose, local, depGraph, order):
         global depChildren, depParents
         depChildren = {}
         depParents = {}
-    if local or order:
-        result = createLocalRES(formula, ts, not order, depGraph)
+    if local or SCC:
+        result = createLocalRES(formula, ts, SCC, depGraph)
         res = result[0]
         createEnd = result[1]
     else:
@@ -428,12 +422,8 @@ def initRESSolver(ts, formula, store, verbose, local, depGraph, order):
 
     solveStart = time.clock()
     try:
-        if order:
-            global RES, state, solutions
-            RES = res
-            state = {var: 0 for var in res.indexedEquations.keys()}
-            solutions = {var: None for var in res.indexedEquations.keys()}
-            value = solveRESDep(res.initVar)
+        if SCC:
+            value = solveRESSCC(res, formula)
         else:
             value = solveRES(res, depGraph)
     except ZeroDivisionError:

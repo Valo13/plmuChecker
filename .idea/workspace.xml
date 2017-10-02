@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e8429b72-ac6d-4996-bd9a-994207376195" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProVerT.py" afterPath="$PROJECT_DIR$/ProVerT.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RESSolver.py" afterPath="$PROJECT_DIR$/RESSolver.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" afterPath="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,11 +17,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RESSolver.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RESSolver.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RESSolver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="391" column="0" lean-forward="true" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
+            <state relative-caret-position="185">
+              <caret line="389" column="8" lean-forward="true" selection-start-line="389" selection-start-column="8" selection-end-line="389" selection-end-column="8" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -71,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="formulas-boardgame.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="formulas-boardgame.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+            <state relative-caret-position="119">
+              <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -193,12 +191,12 @@
         <option value="$PROJECT_DIR$/examples/threshold/formulas-threshold.txt" />
         <option value="$PROJECT_DIR$/examples/yahtzee/a.py" />
         <option value="$PROJECT_DIR$/RealFormula.py" />
-        <option value="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" />
         <option value="$PROJECT_DIR$/tarjan.py" />
         <option value="$PROJECT_DIR$/examples/brp/formulas-brp.txt" />
         <option value="$PROJECT_DIR$/examples/ant/formulas-ant.txt" />
         <option value="$PROJECT_DIR$/ProVerT.py" />
         <option value="$PROJECT_DIR$/RESSolver.py" />
+        <option value="$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt" />
       </list>
     </option>
   </component>
@@ -813,7 +811,14 @@
       <option name="project" value="LOCAL" />
       <updated>1506936323422</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="renamed order to SCC in most places, removed SolveRESDep, createLocalRES can now divide the equations in blocks">
+      <created>1506938474314</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1506938474314</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -845,7 +850,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed parity game reduction for current examples" />
     <MESSAGE value="paritygames can now be created from RESs" />
     <MESSAGE value="added a label operator to allow checking for average values (see yahtzee example)" />
     <MESSAGE value="added time measurements" />
@@ -870,7 +874,8 @@
     <MESSAGE value="added a solving method that traverses the dependency graph recursively and fixed removing dependencies" />
     <MESSAGE value="increased loss probability of brp models" />
     <MESSAGE value="fixed some initialisations, added tarjan.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed some initialisations, added tarjan.py" />
+    <MESSAGE value="renamed order to SCC in most places, removed SolveRESDep, createLocalRES can now divide the equations in blocks" />
+    <option name="LAST_COMMIT_MESSAGE" value="renamed order to SCC in most places, removed SolveRESDep, createLocalRES can now divide the equations in blocks" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1138,14 +1143,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tarjan.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -1182,11 +1179,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/RESSolver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="391" column="0" lean-forward="true" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
+        <state relative-caret-position="185">
+          <caret line="389" column="8" lean-forward="true" selection-start-line="389" selection-start-column="8" selection-end-line="389" selection-end-column="8" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/boardgame/formulas-boardgame.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -2,6 +2,7 @@ import os
 import time
 from RealFormula import *
 from FormulaReader import *
+from tarjan import tarjan
 
 # maximum number of iterations for the solver by fixpoint
 MAX_ITER = 5
@@ -372,9 +373,9 @@ solutions = {}
 
 # solve the RES with a more efficient order by recursively following the dependency graph
 def solveRESDep(var):
+    global state, solutions
     if state[var] == 2:
         return solutions[var]
-    global state, solutions
     state[var] = 1
     equation = RES.indexedEquations[var]
     for childVar in copy.copy(depChildren[var]):
@@ -405,8 +406,12 @@ def initRESSolver(ts, formula, store, verbose, local, depGraph, order):
         return None, 0, 0
 
     createStart = time.clock()
+    if depGraph:
+        global depChildren, depParents
+        depChildren = {}
+        depParents = {}
     if local or order:
-        result = createLocalRES(formula, ts, not order, depGraph or order)
+        result = createLocalRES(formula, ts, not order, depGraph)
         res = result[0]
         createEnd = result[1]
     else:

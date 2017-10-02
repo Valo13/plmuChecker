@@ -44,7 +44,7 @@ def main():
                         # do the model checking
                         print("Computing result for formula " + str(formula))
                         if args.equations:
-                            result = RESSolver.initRESSolver(model, formula, args.store, args.verbose, args.local, args.depGraph, args.order)
+                            result = RESSolver.initRESSolver(model, formula, args.store, args.verbose, args.local, args.depGraph or args.order, args.order)
                             value = result[0]
                             creationTimes += [result[1]]
                             solveTimes += [result[2]]

@@ -254,6 +254,7 @@ def createLocalRES(formula, ts, SCC, makeDepGraph):
         res = RealEquationSystem([res.indexedEquations[v + s] for (v, s) in toSort], res.initVar)
     else:
         res.blocks = blocks
+        res.varRank = varRank
 
     return res, createEnd
 
@@ -385,9 +386,63 @@ def solveRES(res, useDepGraph):
     return float(res.equations[i].rhs.op.val)
 
 
-# solve the RES with a more efficient order by using SSC's
-def solveRESSCC(res, formula):
-    pass
+# solve the RES with a more efficient order by using SCC's
+def solveRESSCC(res):
+    numBlocks = len(res.blocks)
+
+    if printInfo:
+        print("##### SOLVING RES #####")
+    # from the last block to the first
+    for rank in reversed(range(numBlocks)):
+        # create the dependency graph for this block
+        #  note that this dependency graph is only used to determine the ordering of solving the equations,
+        #  it is not altered during solving
+        if numBlocks == 1:
+            blockDepChildren = depChildren
+        else:
+            blockDepChildren = {}
+            for eq in res.blocks[rank]:
+                blockDepChildren[eq.lhs] = set([child for child in depChildren[eq.lhs] if res.varRank[child[0]] == rank])
+
+        # apply tarjan's algorithm to get all SCC's
+        SCCs = tarjan(blockDepChildren)
+        print(SCCs)
+
+        # note that tarjan's algorithm returns all SCC's in the reverse topological order,
+        #  which is exactly the order we want for solving
+        for i in range(len(SCCs)):
+            # if we are doing the very last SSC (which contains the initial variable),
+            #  we want the initial variable to be solved last
+            if rank == 0 and i == len(SCCs) - 1:
+                SCCs[i] = [var for var in SCCs[i] if var != res.initVar] + [res.initVar]
+            for var in SCCs[i]:
+                if printInfo:
+                    print("##### handling " + var)
+                equation = res.indexedEquations[var]
+
+                # solve own equation if necessary
+                if var in depChildren[var]:
+                    if printInfo:
+                        print("##### solving...")
+                    equation.rhs = simplify(solveEquation(equation).rhs, True)
+                    depRemove(var, {var})
+
+                # substitute to parents
+                if printInfo:
+                    print("##### substituting...")
+                for parentVar in copy.copy(depParents[var]):
+                    eq = res.indexedEquations[parentVar]
+                    if not eq.processed:
+                        eq.rhs = simplify(toNormalForm(simplify(substituteVar(eq.rhs, var, equation.rhs))), True)
+                        depRemove(parentVar, {var})
+                        depAdd(parentVar, depChildren[var])
+
+                equation.processed = True
+
+                if printInfo:
+                    print(str(res) + '\n')
+
+    return float(res.indexedEquations[res.initVar].rhs.op.val)
 
 
 def initRESSolver(ts, formula, store, verbose, local, depGraph, SCC):
@@ -419,11 +474,13 @@ def initRESSolver(ts, formula, store, verbose, local, depGraph, SCC):
         f.close()
 
     print("RES created")
+    print(res)
+    print(depChildren)
 
     solveStart = time.clock()
     try:
         if SCC:
-            value = solveRESSCC(res, formula)
+            value = solveRESSCC(res)
         else:
             value = solveRES(res, depGraph)
     except ZeroDivisionError:

@@ -406,7 +406,6 @@ def solveRESSCC(res):
 
         # apply tarjan's algorithm to get all SCC's
         SCCs = tarjan(blockDepChildren)
-        print(SCCs)
 
         # note that tarjan's algorithm returns all SCC's in the reverse topological order,
         #  which is exactly the order we want for solving
@@ -474,8 +473,6 @@ def initRESSolver(ts, formula, store, verbose, local, depGraph, SCC):
         f.close()
 
     print("RES created")
-    print(res)
-    print(depChildren)
 
     solveStart = time.clock()
     try:

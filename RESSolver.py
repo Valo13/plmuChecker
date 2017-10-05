@@ -327,18 +327,16 @@ def solveEquation(equation):
     return equation
 
 
-# for parent 'parent' remove children 'children' from the dependency graph
-def depRemove(parent, children):
-    depChildren[parent].difference_update(children)
-    for child in children:
-        depParents[child].remove(parent)
-
-
-# for parent 'parent' add children 'children' to the dependency graph
-def depAdd(parent, children):
-    depChildren[parent].update(children)
-    for child in children:
-        depParents[child].add(parent)
+# for parent 'parent' set its children to 'children'
+def depSet(parent, children):
+    # the old and new children are usually very similar, so we check what has changed and work with that
+    toRemove = depChildren[parent].difference(children)
+    toAdd = children.difference(depChildren[parent])
+    depChildren[parent] = children
+    for var in toRemove:
+        depParents[var].remove(parent)
+    for var in toAdd:
+        depParents[var].add(parent)
 
 
 def solveRES(res, useDepGraph):
@@ -355,7 +353,7 @@ def solveRES(res, useDepGraph):
                 print("##### solving...")
             equation.rhs = simplify(solveEquation(equation).rhs, True)
             if useDepGraph:
-                depRemove(var, {var})
+                depSet(var, set(v.op.var for v in equation.rhs.getSubFormulas(["VAR"])))
 
         # substitute above
         if printInfo:
@@ -365,8 +363,7 @@ def solveRES(res, useDepGraph):
                 eq = res.indexedEquations[parentVar]
                 if not eq.processed:
                     eq.rhs = simplify(toNormalForm(simplify(substituteVar(eq.rhs, var, equation.rhs))), True)
-                    depRemove(parentVar, {var})
-                    depAdd(parentVar, depChildren[var])
+                    depSet(var, set(v.op.var for v in equation.rhs.getSubFormulas(["VAR"])))
         else:
             for j in reversed(range(0, i)):
                 eq = res.equations[j]
@@ -451,7 +448,7 @@ def solveRESSCC(res):
                     if printInfo:
                         print("##### solving...")
                     equation.rhs = simplify(solveEquation(equation).rhs, True)
-                    depRemove(var, {var})
+                    depSet(var, set(v.op.var for v in equation.rhs.getSubFormulas(["VAR"])))
 
                 # substitute to parents
                 if printInfo:
@@ -460,8 +457,7 @@ def solveRESSCC(res):
                     eq = res.indexedEquations[parentVar]
                     if not eq.processed:
                         eq.rhs = simplify(toNormalForm(simplify(substituteVar(eq.rhs, var, equation.rhs))), True)
-                        depRemove(parentVar, {var})
-                        depAdd(parentVar, depChildren[var])
+                        depSet(var, set(v.op.var for v in equation.rhs.getSubFormulas(["VAR"])))
 
                 equation.processed = True
 

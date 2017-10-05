@@ -386,6 +386,22 @@ def solveRES(res, useDepGraph):
     return float(res.equations[i].rhs.op.val)
 
 
+# returns the reversed order of breadth first search
+# assumes that all vertices in "vertices" can be reached from a vertex in "start"
+def reversedOrderBFS(vertices, start, blockDepChildren):
+    visited = {v: (True if v in start else False) for v in vertices}
+    orderedVertices = start
+    index = 0
+    while index < len(orderedVertices):
+        for child in blockDepChildren[orderedVertices[index]]:
+            if child in vertices and not visited[child]:
+                orderedVertices += [child]
+                visited[child] = True
+        index += 1
+
+    return reversed(orderedVertices)
+
+
 # solve the RES with a more efficient order by using SCC's
 def solveRESSCC(res):
     numBlocks = len(res.blocks)
@@ -410,11 +426,22 @@ def solveRESSCC(res):
         # note that tarjan's algorithm returns all SCC's in the reverse topological order,
         #  which is exactly the order we want for solving
         for i in range(len(SCCs)):
-            # if we are doing the very last SSC (which contains the initial variable),
-            #  we want the initial variable to be solved last
-            if rank == 0 and i == len(SCCs) - 1:
-                SCCs[i] = [var for var in SCCs[i] if var != res.initVar] + [res.initVar]
-            for var in SCCs[i]:
+            SCC = SCCs[i]
+            if len(SCC) > 1:
+                # order the vertices in the SCC in reversed order of BFS
+                if rank == 0 and i == len(SCCs) - 1:
+                    # if we are at the very last SCC, we let the initial variable have depth 0
+                    SCC = reversedOrderBFS(SCC, [res.initVar], blockDepChildren)
+                else:
+                    # else we let all vertices that have an incoming dependency from outside this SCC have depth 0
+                    startingVertices = []
+                    for var in SCC:
+                        for parentVar in depParents[var]:
+                            if parentVar not in SCC:
+                                startingVertices += [var]
+                    if len(SCC) > len(startingVertices):
+                        SCC = reversedOrderBFS(SCC, startingVertices, blockDepChildren)
+            for var in SCC:
                 if printInfo:
                     print("##### handling " + var)
                 equation = res.indexedEquations[var]

@@ -49,24 +49,11 @@ class TransitionSystem:
         for t in transitions:
             self.transitions[t.startstate] += [t]
 
-        # normalize the labels to [0,1] and store the factor to return them to the original value
-        self.labels = [0 for s in range(self.numstates)]
-        if labels:
-            self.labelFactor = max(labels.values())
-        else:
-            self.labelFactor = 1
-        for state in range(self.numstates):
-            if state in labels:
-                self.labels[state] = labels[state]/self.labelFactor
+        # give every state without a label the label 0
+        self.labels = [labels[s] if s in labels else 0.0 for s in range(self.numstates)]
 
     def outgoing(self, state, action):
         return [t for t in self.transitions[state] if t.action == action]
-
-    def getLabel(self, state):
-        if state in self.labels:
-            return self.labels[state]
-        else:
-            return 0.0
 
     def __repr__(self):
         return 'des (' + str(self.initstate) + ', ' + str(self.numtransitions) + ', ' + str(self.numstates) + ')\n' + '\n'.join(str(t) for s in self.transitions for t in s)

@@ -363,7 +363,7 @@ def solveRES(res, useDepGraph):
                 eq = res.indexedEquations[parentVar]
                 if not eq.processed:
                     eq.rhs = simplify(toNormalForm(simplify(substituteVar(eq.rhs, var, equation.rhs))), True)
-                    depSet(var, set(v.op.var for v in equation.rhs.getSubFormulas(["VAR"])))
+                    depSet(parentVar, set(v.op.var for v in eq.rhs.getSubFormulas(["VAR"])))
         else:
             for j in reversed(range(0, i)):
                 eq = res.equations[j]
@@ -457,7 +457,7 @@ def solveRESSCC(res):
                     eq = res.indexedEquations[parentVar]
                     if not eq.processed:
                         eq.rhs = simplify(toNormalForm(simplify(substituteVar(eq.rhs, var, equation.rhs))), True)
-                        depSet(var, set(v.op.var for v in equation.rhs.getSubFormulas(["VAR"])))
+                        depSet(parentVar, set(v.op.var for v in eq.rhs.getSubFormulas(["VAR"])))
 
                 equation.processed = True
 

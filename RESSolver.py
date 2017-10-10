@@ -481,7 +481,7 @@ def initRESSolver(ts, formula, store, verbose, local, depGraph, SCC):
         global depChildren, depParents
         depChildren = {}
         depParents = {}
-    if local or SCC:
+    if local:
         result = createLocalRES(formula, ts, SCC, depGraph)
         res = result[0]
         createEnd = result[1]
@@ -494,6 +494,21 @@ def initRESSolver(ts, formula, store, verbose, local, depGraph, SCC):
                                    ts.name + "_" + formula.name + "_RES" + ("_local" if local else "") + ".res"]), 'w')
         f.write(str(res))
         f.close()
+        if depGraph:
+            d = open(os.path.sep.join([os.path.split(model.file)[0],
+                                   ts.name + "_" + formula.name + "_DEP" + ("_local" if local else "") + ".dot"]), 'w')
+
+            dot = "digraph DEP {\nrankdir = TB;\n"
+            for var in depChildren:
+                dot += '\t' + var + ";\n"
+            dot += '\n'
+            for parent in depChildren:
+                for child in depChildren[parent]:
+                    dot += '\t' + parent + " -> " + child + ";\n"
+            dot += "}"
+
+            d.write(dot)
+            d.close()
 
     print("RES created")
 

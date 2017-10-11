@@ -57,6 +57,9 @@ def main():
                             print("Could not compute result for formula " + str(formula) + '\n')
                             break
 
+                        if hasLabelOperator:
+                            value = value * model.labelFactor
+
                     print("The result of " + str(formula) + " is: " + str(value))
                     if args.equations:
                         print("Creation time: " + str(sum(creationTimes) / numberOfRuns) + ' seconds')

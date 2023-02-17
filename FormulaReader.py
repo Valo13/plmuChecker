@@ -138,7 +138,7 @@ def grammar():
 
     FORMULAATOM = (VAL ^ VAR ^ LABEL).setParseAction(FormulaNode)
 
-    FORMULA = operatorPrecedence(FORMULAATOM, [(OP1L, 1, opAssoc.RIGHT, FormulaNode), (OP2, 2, opAssoc.LEFT, FormulaNode)])
+    FORMULA = infixNotation(FORMULAATOM, [(OP1L, 1, opAssoc.RIGHT, FormulaNode), (OP2, 2, opAssoc.LEFT, FormulaNode)])
 
     return FORMULA
 
@@ -179,10 +179,10 @@ def getAST(code):
         # parse the formula
         formula = grammar().parseString(code)[0]
 
-    except ParseException, err:
-        print err.line
-        print " " * (err.column - 1) + "^"
-        print err
+    except ParseException as err:
+        print(err.line)
+        print(" " * (err.column - 1) + "^")
+        print(err)
         return -1
 
     # add variable and probabilistic information

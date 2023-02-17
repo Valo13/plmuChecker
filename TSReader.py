@@ -69,7 +69,7 @@ class TransitionSystem:
 def extractDist(distData):
     prob = 1.0
     dist = {}
-    for i in range(len(distData)/2):
+    for i in range(int(len(distData)/2)):
         pValue = distData[2*i+1]
         slash = pValue.find('/')
         p = float(pValue[:slash]) / float(pValue[slash+1:])

@@ -73,11 +73,9 @@ class RealFormulaNode:
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            selfoperands = sorted(self.operands)
-            otheroperands = sorted(other.operands)
             return self.op == other.op \
-                   and len(selfoperands) == len(otheroperands) \
-                   and all([selfoperands[i] == otheroperands[i] for i in range(len(selfoperands))])
+                   and len(self.operands) == len(other.operands) \
+                   and all([self.operands[i] == other.operands[i] for i in range(len(self.operands))])
         return NotImplemented
 
     def __ne__(self, other):
